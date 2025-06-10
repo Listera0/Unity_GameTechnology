@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class InputKeyboardControl : MonoBehaviour
 {
     public GameObject[] keyButtonObjs;
+    public GameObject selectKeyPanel;
 
     private string[] keyActionArray;
     private Dictionary<string, KeyCode> keyBinding;
@@ -17,22 +18,26 @@ public class InputKeyboardControl : MonoBehaviour
     private List<KeyCode> duplicateKeys;
     private string selectAction;
     private bool changeKey;
+    private Color normalColor;
+    private Color duplicatedColor;
 
     void Awake()
     {
-        keyActionArray = new string[] { "Move_Forward", "Move_Back", "Move_Left", "Move_Right", "Jump" };
+        keyActionArray = new string[] { "Move_Forward", "Move_Back", "Move_Left", "Move_Right", "Jump", "Inventory", "Item1", "Item2", "Item3", "Item4" };
         if (keyActionArray.Length != keyButtonObjs.Length)
         {
             UnityEngine.Debug.LogWarning("Not Enough KeyButtonObjs");
         }
         else
-        { 
+        {
             for (int i = 0; i < keyButtonObjs.Length; i++)
             {
                 int index = i;
-                keyButtonObjs[i].GetComponent<Button>().onClick.AddListener(()=>SelectChangeKey(keyActionArray[index]));
+                keyButtonObjs[i].GetComponent<Button>().onClick.AddListener(() => SelectChangeKey(keyActionArray[index]));
             }
         }
+
+        selectKeyPanel.SetActive(false);
 
         keyBinding = new Dictionary<string, KeyCode>();
         keyBinding.Add("Move_Forward", KeyCode.W);
@@ -40,10 +45,17 @@ public class InputKeyboardControl : MonoBehaviour
         keyBinding.Add("Move_Left", KeyCode.A);
         keyBinding.Add("Move_Right", KeyCode.D);
         keyBinding.Add("Jump", KeyCode.Space);
+        keyBinding.Add("Inventory", KeyCode.Tab);
+        keyBinding.Add("Item1", KeyCode.Alpha1);
+        keyBinding.Add("Item2", KeyCode.Alpha2);
+        keyBinding.Add("Item3", KeyCode.Alpha3);
+        keyBinding.Add("Item4", KeyCode.Alpha4);
 
         userChanges = new Dictionary<string, KeyCode>(keyBinding);
         duplicateKeys = new List<KeyCode>();
         changeKey = false;
+        normalColor = new Color32(255, 255, 255, 255);
+        duplicatedColor = new Color32(255, 175, 175, 255);
     }
 
     void Update()
@@ -83,6 +95,11 @@ public class InputKeyboardControl : MonoBehaviour
             case "Move_Left": MoveLeft(); break;
             case "Move_Right": MoveRight(); break;
             case "Jump": Jump(); break;
+            case "Inventory": Inventory(); break;
+            case "Item1": UseItem1(); break;
+            case "Item2": UseItem2(); break;
+            case "Item3": UseItem3(); break;
+            case "Item4": UseItem4(); break;
         }
     }
 
@@ -100,8 +117,7 @@ public class InputKeyboardControl : MonoBehaviour
     {
         changeKey = true;
         selectAction = action;
-        // print ui 'select change key'
-        UnityEngine.Debug.Log("select change key");
+        selectKeyPanel.SetActive(true);
     }
 
     public void ChangeActiveKey()
@@ -129,6 +145,7 @@ public class InputKeyboardControl : MonoBehaviour
 
             userChanges[selectAction] = key;
             changeKey = false;
+            selectKeyPanel.SetActive(false);
             CheckDuplicationKeyBinding();
         }
     }
@@ -142,17 +159,36 @@ public class InputKeyboardControl : MonoBehaviour
         {
             if (seen.Contains(diction.Value))
             {
-                duplicateKeys.Add(diction.Value);
+                if (!duplicateKeys.Contains(diction.Value))
+                {
+                    duplicateKeys.Add(diction.Value);
+                }
             }
             else
-            { 
+            {
                 seen.Add(diction.Value);
             }
         }
-        
+
+        foreach (GameObject obj in keyButtonObjs)
+        {
+            obj.GetComponent<Image>().color = normalColor;
+        }
+
         if (duplicateKeys.Count != 0)
         {
-            
+            for (int i = 0; i < duplicateKeys.Count; i++)
+            {
+                int j = 0;
+                foreach (var diction in userChanges)
+                {
+                    if (diction.Value == duplicateKeys[i])
+                    {
+                        keyButtonObjs[j].GetComponent<Image>().color = duplicatedColor;
+                    }
+                    j++;
+                }
+            }
         }
     }
 
@@ -163,7 +199,7 @@ public class InputKeyboardControl : MonoBehaviour
             keyBinding = new Dictionary<string, KeyCode>(userChanges);
         }
         else
-        { 
+        {
             // warning message duplicated key
         }
     }
@@ -191,5 +227,30 @@ public class InputKeyboardControl : MonoBehaviour
     public void Jump()
     {
 
+    }
+
+    public void Inventory()
+    {
+
+    }
+
+    public void UseItem1()
+    {
+
+    }
+
+    public void UseItem2()
+    {
+
+    }
+
+    public void UseItem3()
+    {
+
+    }
+
+    public void UseItem4()
+    {
+        
     }
 }
