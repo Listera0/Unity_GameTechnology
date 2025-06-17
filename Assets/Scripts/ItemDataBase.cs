@@ -2,12 +2,59 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct ItemData
+[SerializeField]
+public enum ItemCategory
 {
-
+    Equipment = 0,
+    Consumeable,
+    Others
 }
 
-public class ItemInformation : MonoBehaviour
+[SerializeField]
+public struct ItemData
 {
-    
+    public int itemIndex;
+    public string itemName;
+    public ItemCategory itemCategory;
+
+    public ItemData(int index, string name, ItemCategory category)
+    {
+        itemIndex = index;
+        itemName = name;
+        itemCategory = category;
+    }
+}
+
+public class ItemDataBase : MonoBehaviour, IInitializeInter
+{
+    public static ItemDataBase instance { get; private set; }
+
+    public List<ItemData> itemDatabases;
+
+    public void Initialize()
+    {
+        if (instance && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+
+        itemDatabases = new List<ItemData>();
+        SetItemDataBase();
+    }
+
+
+    public void SetItemDataBase()
+    {
+        AddItemDataBase("Water", ItemCategory.Consumeable);
+        AddItemDataBase("Food", ItemCategory.Consumeable);
+        AddItemDataBase("Coin", ItemCategory.Others);
+    }
+
+    public void AddItemDataBase(string name, ItemCategory category)
+    {
+        itemDatabases.Add(new ItemData(itemDatabases.Count, name, category));
+    }
 }
