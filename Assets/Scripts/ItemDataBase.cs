@@ -25,26 +25,15 @@ public struct ItemData
     }
 }
 
-public class ItemDataBase : MonoBehaviour, IInitializeInter
+public class ItemDataBase : Singleton<ItemDataBase>, IInitializeInter
 {
-    public static ItemDataBase instance { get; private set; }
-
     public List<ItemData> itemDatabases;
 
     public void Initialize()
     {
-        if (instance && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        instance = this;
-
         itemDatabases = new List<ItemData>();
         SetItemDataBase();
     }
-
 
     public void SetItemDataBase()
     {
