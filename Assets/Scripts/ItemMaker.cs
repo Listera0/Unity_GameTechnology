@@ -11,6 +11,7 @@ public class ItemMaker : MonoBehaviour, IInitializeInter
     public GameObject indexShowButton;
     public GameObject itemButtonPrefab;
     public TextMeshProUGUI itemInformation;
+    public RadioSelectButton InventoryPanelArea;
 
     private List<GameObject> currentItemButtons;
     private int selectItemIndex;
@@ -61,6 +62,12 @@ public class ItemMaker : MonoBehaviour, IInitializeInter
         information += "\nCategory : " + itemdata.itemCategory;
 
         itemInformation.text = information;
+    }
+
+    public void MakeItemToInventory()
+    {
+        Inventory targetInv = InventoryPanelArea.GetSelectGameObject().GetComponent<Inventory>();
+        
     }
 
     private void SetIndexButtonList()

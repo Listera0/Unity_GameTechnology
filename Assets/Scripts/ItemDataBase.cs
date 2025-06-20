@@ -14,14 +14,16 @@ public enum ItemCategory
 public struct ItemData
 {
     public int itemIndex;
-    public string itemName;
     public ItemCategory itemCategory;
+    public string itemName;
+    public int itemMaxCount;
 
-    public ItemData(int index, string name, ItemCategory category)
+    public ItemData(int index, ItemCategory category, string name, int maxCount)
     {
         itemIndex = index;
-        itemName = name;
         itemCategory = category;
+        itemName = name;
+        itemMaxCount = maxCount;
     }
 }
 
@@ -37,13 +39,14 @@ public class ItemDataBase : Singleton<ItemDataBase>, IInitializeInter
 
     public void SetItemDataBase()
     {
-        AddItemDataBase("Water", ItemCategory.Consumeable);
-        AddItemDataBase("Food", ItemCategory.Consumeable);
-        AddItemDataBase("Coin", ItemCategory.Others);
+        AddItemDataBase(ItemCategory.Others, "None", 0);
+        AddItemDataBase(ItemCategory.Consumeable, "Water", 100);
+        AddItemDataBase(ItemCategory.Consumeable, "Food", 100);
+        AddItemDataBase(ItemCategory.Others, "Coin", 1000);
     }
 
-    public void AddItemDataBase(string name, ItemCategory category)
+    public void AddItemDataBase(ItemCategory category, string name, int maxCount)
     {
-        itemDatabases.Add(new ItemData(itemDatabases.Count, name, category));
+        itemDatabases.Add(new ItemData(itemDatabases.Count, category, name, maxCount));
     }
 }

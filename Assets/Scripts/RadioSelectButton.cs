@@ -12,6 +12,7 @@ public class RadioSelectButton : MonoBehaviour
     public Color VisibleColor;
 
     private bool failedMatchObject;
+    private int selectIndex;
 
     void Awake()
     {
@@ -37,8 +38,14 @@ public class RadioSelectButton : MonoBehaviour
     {
         if (!failedMatchObject)
         {
-            UnVisibleSelect(FindSelectObj(obj));
+            selectIndex = FindSelectObj(obj);
+            UnVisibleSelect(selectIndex);
         }
+    }
+
+    public GameObject GetSelectGameObject()
+    {
+        return targetObject[selectIndex];
     }
 
     private void UnVisibleSelect(int exception)
