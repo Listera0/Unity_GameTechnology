@@ -16,14 +16,25 @@ public struct ItemData
     public int itemIndex;
     public ItemCategory itemCategory;
     public string itemName;
+    public int currentItemCount;
     public int itemMaxCount;
 
-    public ItemData(int index, ItemCategory category, string name, int maxCount)
+    public ItemData(int index, ItemCategory category, string name, int itemCount, int maxCount)
     {
         itemIndex = index;
         itemCategory = category;
         itemName = name;
+        currentItemCount = itemCount;
         itemMaxCount = maxCount;
+    }
+
+    public ItemData(ItemData copyed)
+    {
+        itemIndex = copyed.itemIndex;
+        itemCategory = copyed.itemCategory;
+        itemName = copyed.itemName;
+        currentItemCount = copyed.currentItemCount;
+        itemMaxCount = copyed.itemMaxCount;
     }
 }
 
@@ -47,6 +58,16 @@ public class ItemDataBase : Singleton<ItemDataBase>, IInitializeInter
 
     public void AddItemDataBase(ItemCategory category, string name, int maxCount)
     {
-        itemDatabases.Add(new ItemData(itemDatabases.Count, category, name, maxCount));
+        itemDatabases.Add(new ItemData(itemDatabases.Count, category, name, 0, maxCount));
+    }
+
+    public ItemData GetItemData(int index)
+    {
+        return new ItemData(itemDatabases[index]);
+    }
+
+    public ItemData NullItem()
+    {
+        return new ItemData(itemDatabases[0]);
     }
 }

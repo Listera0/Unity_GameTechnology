@@ -66,7 +66,6 @@ public class ItemMaker : MonoBehaviour, IInitializeInter
 
     public void MakeItemToInventory()
     {
-        Inventory targetInv = InventoryPanelArea.GetSelectGameObject().GetComponent<Inventory>();
         
     }
 

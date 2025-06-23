@@ -10,7 +10,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 {
     private Canvas canvas;
     private GameObject itemObj;
-    private Inventory ownInventory;
+    private IInventorySystem ownInventory;
     private int slotIndex;
 
     void Awake()
@@ -21,11 +21,11 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (InventorySystem.instance.dragSlot && transform.childCount != 0)
+        if (InventoryManager.instance.dragSlot && transform.childCount != 0)
         {
             itemObj = transform.GetChild(0).gameObject;
             itemObj.GetComponent<CanvasGroup>().blocksRaycasts = false;
-            itemObj.transform.SetParent(InventorySystem.instance.dragSlot.transform);
+            itemObj.transform.SetParent(InventoryManager.instance.dragSlot.transform);
         }
     }
 
@@ -42,7 +42,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (!itemObj) return;
         // itemObj.GetComponent<CanvasGroup>().blocksRaycasts = true;
 
-        if (itemObj.transform.parent == InventorySystem.instance.dragSlot.transform)
+        if (itemObj.transform.parent == InventoryManager.instance.dragSlot.transform)
         {
             itemObj.transform.SetParent(transform);
             itemObj.transform.localPosition = Vector3.zero;
@@ -50,32 +50,32 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         else
         {
             itemObj = null;
-            ownInventory.RemoveItemFromInventory(slotIndex);
+            ownInventory.RemoveItemFromSlot(slotIndex, -1);
         }
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (InventorySystem.instance.dragSlot.transform.childCount != 0 && InventorySystem.instance.dragSlot.transform.GetChild(0) != itemObj)
+        if (InventoryManager.instance.dragSlot.transform.childCount != 0 && InventoryManager.instance.dragSlot.transform.GetChild(0) != itemObj)
         {
-            itemObj = InventorySystem.instance.dragSlot.transform.GetChild(0).gameObject;
+            itemObj = InventoryManager.instance.dragSlot.transform.GetChild(0).gameObject;
             itemObj.transform.SetParent(transform);
             itemObj.transform.localPosition = Vector3.zero;
-            ownInventory.GetItemToInventory(ItemDataBase.instance.itemDatabases[0], slotIndex);
+            ownInventory.AddItem(ItemDataBase.instance.itemDatabases[0], slotIndex);
         }
     }
 
-    private Inventory FindOwnInventory()
+    private IInventorySystem FindOwnInventory()
     {
         Transform findobj = transform.parent;
 
         for (int i = 0; i < 3; i++)
         {
-            if (findobj.GetComponent<Inventory>() != null)
+            if (findobj.GetComponent<IInventorySystem>() != null)
             {
-                return findobj.GetComponent<Inventory>();
+                return findobj.GetComponent<IInventorySystem>();
             }
-            findobj = transform.parent;
+            findobj = findobj.parent;
         }
 
         return null;
