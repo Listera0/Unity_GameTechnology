@@ -16,15 +16,15 @@ public struct ItemData
     public int itemIndex;
     public ItemCategory itemCategory;
     public string itemName;
-    public int currentItemCount;
+    public int itemCount;
     public int itemMaxCount;
 
-    public ItemData(int index, ItemCategory category, string name, int itemCount, int maxCount)
+    public ItemData(int index, ItemCategory category, string name, int count, int maxCount)
     {
         itemIndex = index;
         itemCategory = category;
         itemName = name;
-        currentItemCount = itemCount;
+        itemCount = count;
         itemMaxCount = maxCount;
     }
 
@@ -33,7 +33,7 @@ public struct ItemData
         itemIndex = copyed.itemIndex;
         itemCategory = copyed.itemCategory;
         itemName = copyed.itemName;
-        currentItemCount = copyed.currentItemCount;
+        itemCount = copyed.itemCount;
         itemMaxCount = copyed.itemMaxCount;
     }
 }

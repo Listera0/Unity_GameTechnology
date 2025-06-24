@@ -11,10 +11,42 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
         inventoryInfo = new InventoryInfo(8, 8);
     }
 
-    // required
     public void GetItem(ItemData item)
     {
-        
+        int[] index = FindItemIndex(item, false);
+        if (index[0] != -1)
+        {
+            ItemData invItem = inventoryInfo.inventoryItemData[index[0], index[1]];
+            if (invItem.itemCount + item.itemCount <= item.itemMaxCount)
+            {
+                invItem.itemCount += item.itemCount;
+            }
+            else
+            {
+                item.itemCount -= item.itemMaxCount - invItem.itemCount;
+                invItem.itemCount = item.itemMaxCount;
+                GetItem(item);
+            }
+        }
+        else
+        {
+            index = FindEmptySlot();
+            if (index[0] != -1)
+            {
+                ItemData invItem = inventoryInfo.inventoryItemData[index[0], index[1]] = item;
+                if (invItem.itemCount > invItem.itemMaxCount)
+                {
+                    int leftCount = invItem.itemCount - invItem.itemMaxCount;
+                    ItemData newItem = new ItemData(invItem);
+                    newItem.itemCount = leftCount;
+                    GetItem(newItem);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No more empty inventory slot");
+            }
+        }
     }
 
     public void AddItem(ItemData item, int index)
@@ -24,10 +56,25 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
         inventoryInfo.inventoryItemData[Iindex[0], Iindex[1]] = item;
     }
 
-    // required
     public void RemoveItem(ItemData item)
     {
-        
+        int[] index = FindItemIndex(item, true);
+
+        if (index[0] != -1)
+        {
+            ItemData invItem = inventoryInfo.inventoryItemData[index[0], index[1]];
+
+            if (invItem.itemCount >= item.itemCount)
+            {
+                invItem.itemCount -= item.itemCount;
+            }
+            else
+            {
+                item.itemCount = item.itemCount - invItem.itemCount;
+                invItem.itemCount = 0;
+                RemoveItem(item);
+            }
+        }
     }
 
     public void RemoveItemFromSlot(int index, int count)
@@ -40,25 +87,55 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
             return;
         }
 
-        inventoryInfo.inventoryItemData[Iindex[0], Iindex[1]].currentItemCount -= count;
-        if (inventoryInfo.inventoryItemData[Iindex[0], Iindex[1]].currentItemCount <= 0)
+        inventoryInfo.inventoryItemData[Iindex[0], Iindex[1]].itemCount -= count;
+        if (inventoryInfo.inventoryItemData[Iindex[0], Iindex[1]].itemCount <= 0)
         {
             inventoryInfo.inventoryItemData[Iindex[0], Iindex[1]] = ItemDataBase.instance.NullItem();
         }
     }
 
-    // required
-    public int[] FindItemIndex(ItemData item)
+    public int[] FindItemIndex(ItemData item, bool includeMaxStack)
     {
         int[] returnValue = new int[2] { -1, -1 };
+
+        for (int i = 0; i < inventoryInfo.inventoryItemData.GetLength(0); i++)
+        {
+            for (int j = 0; j < inventoryInfo.inventoryItemData.GetLength(1); j++)
+            {
+                if (inventoryInfo.inventoryItemData[i, j].itemIndex == item.itemIndex)
+                {
+                    if (includeMaxStack)
+                    {
+                        return new int[2] { i, j };
+                    }
+                    else
+                    {
+                        if (inventoryInfo.inventoryItemData[i, j].itemCount != inventoryInfo.inventoryItemData[i, j].itemMaxCount)
+                        {
+                            return new int[2] { i, j };
+                        }
+                    }
+                }
+            }
+        }
 
         return returnValue;
     }
 
-    // required
-    public int[] FindEmptySlot(ItemData item)
+    public int[] FindEmptySlot()
     {
         int[] returnValue = new int[2] { -1, -1 };
+
+        for (int i = 0; i < inventoryInfo.inventoryItemData.GetLength(0); i++)
+        {
+            for (int j = 0; j < inventoryInfo.inventoryItemData.GetLength(1); j++)
+            {
+                if (inventoryInfo.inventoryItemData[i, j].itemIndex == 0)
+                {
+                    return new int[2] { i, j };
+                }
+            }
+        }
 
         return returnValue;
     }
