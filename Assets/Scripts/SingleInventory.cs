@@ -47,6 +47,7 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
                 Debug.LogWarning("No more empty inventory slot");
             }
         }
+        ShowInventory();
     }
 
     public void AddItem(ItemData item, int index)
@@ -54,6 +55,7 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
         int[] Iindex = GetInventoryIndex(index);
 
         inventoryInfo.inventoryItemData[Iindex[0], Iindex[1]] = item;
+        ShowInventory();
     }
 
     public void RemoveItem(ItemData item)
@@ -75,6 +77,7 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
                 RemoveItem(item);
             }
         }
+        ShowInventory();
     }
 
     public void RemoveItemFromSlot(int index, int count)
@@ -91,6 +94,38 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
         if (inventoryInfo.inventoryItemData[Iindex[0], Iindex[1]].itemCount <= 0)
         {
             inventoryInfo.inventoryItemData[Iindex[0], Iindex[1]] = ItemDataBase.instance.NullItem();
+        }
+        ShowInventory();
+    }
+
+    public void ShowInventory()
+    {
+        int index = 0;
+        foreach (ItemData item in inventoryInfo.inventoryItemData)
+        {
+            Transform slotObj = transform.GetChild(0).GetChild(index);
+
+            if (item.itemCount != 0)
+            {
+                if (slotObj.childCount != 0)
+                {
+                    // change item obj img
+                }
+                else
+                {
+                    GameObject newItemObj = Instantiate(ItemDataBase.instance.itemObjPrefab, slotObj);
+                    newItemObj.transform.position = slotObj.position;
+                }
+            }
+            else
+            {
+                if (slotObj.childCount != 0)
+                {
+                    Destroy(slotObj.GetChild(0).gameObject);
+                }
+            }
+
+            index++;
         }
     }
 

@@ -10,6 +10,7 @@ public class ItemMaker : MonoBehaviour, IInitializeInter
     public GameObject itemButtonListArea;
     public GameObject indexShowButton;
     public GameObject itemButtonPrefab;
+    public GameObject itemGetButton;
     public TextMeshProUGUI itemInformation;
     public RadioSelectButton InventoryPanelArea;
 
@@ -24,6 +25,8 @@ public class ItemMaker : MonoBehaviour, IInitializeInter
         else indexShowButton.GetComponent<Button>().onClick.AddListener(ToggleItemIndexButtonList);
 
         if (!itemButtonPrefab) Debug.LogWarning("itemButtonPrefab is Null");
+        if (!itemGetButton) Debug.LogWarning("itemGetButton is Null");
+        else itemGetButton.GetComponent<Button>().onClick.AddListener(MakeItemToInventory);
         if (!itemInformation) Debug.LogWarning("itemInformation is Null");
 
         currentItemButtons = new List<GameObject>();
@@ -66,7 +69,10 @@ public class ItemMaker : MonoBehaviour, IInitializeInter
 
     public void MakeItemToInventory()
     {
-        
+        SingleInventory inventory = FindObjectOfType<SingleInventory>();
+        ItemData item = ItemDataBase.instance.GetItemData(selectItemIndex);
+        item.itemCount = 1;
+        inventory.GetItem(item);
     }
 
     private void SetIndexButtonList()

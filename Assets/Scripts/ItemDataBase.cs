@@ -41,10 +41,13 @@ public struct ItemData
 public class ItemDataBase : Singleton<ItemDataBase>, IInitializeInter
 {
     public List<ItemData> itemDatabases;
+    public GameObject itemObjPrefab;
 
     public void Initialize()
     {
         itemDatabases = new List<ItemData>();
+        if (!itemObjPrefab) Debug.LogWarning("itemObjPrefab is Null");
+        
         SetItemDataBase();
     }
 

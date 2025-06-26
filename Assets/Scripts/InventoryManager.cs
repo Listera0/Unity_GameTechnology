@@ -18,6 +18,7 @@ public interface IInventorySystem
     void AddItem(ItemData item, int index);
     void RemoveItem(ItemData item);
     void RemoveItemFromSlot(int index, int count);
+    void ShowInventory();
 
     int[] FindItemIndex(ItemData item, bool includeMaxStack);
     int[] FindEmptySlot();
