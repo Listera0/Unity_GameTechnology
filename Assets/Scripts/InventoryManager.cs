@@ -18,6 +18,7 @@ public interface IInventorySystem
     void AddItem(ItemData item, int index);
     void RemoveItem(ItemData item);
     void RemoveItemFromSlot(int index, int count);
+    void MoveItemToSlot(int fromIndex, int toIndex);
     void ShowInventory();
 
     int[] FindItemIndex(ItemData item, bool includeMaxStack);
@@ -29,6 +30,7 @@ public interface IInventorySystem
 public class InventoryManager : Singleton<InventoryManager>, IInitializeInter
 {
     public GameObject dragSlot;
+    public int dragIndex;
     public ItemData movingItemData;
 
     public void Initialize()

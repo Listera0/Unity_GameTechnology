@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class SingleInventory : MonoBehaviour, IInventorySystem
@@ -98,6 +99,16 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
         ShowInventory();
     }
 
+    public void MoveItemToSlot(int fromIndex, int toIndex)
+    {
+        int[] FIndex = GetInventoryIndex(fromIndex);
+        int[] TIndex = GetInventoryIndex(toIndex);
+
+        ItemData item = inventoryInfo.inventoryItemData[FIndex[0], FIndex[1]];
+        inventoryInfo.inventoryItemData[TIndex[0], TIndex[1]] = item;
+        inventoryInfo.inventoryItemData[FIndex[0], FIndex[1]] = ItemDataBase.instance.NullItem();
+    }
+
     public void ShowInventory()
     {
         int index = 0;
@@ -115,6 +126,7 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
                 {
                     GameObject newItemObj = Instantiate(ItemDataBase.instance.itemObjPrefab, slotObj);
                     newItemObj.transform.position = slotObj.position;
+                    newItemObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = item.itemIndex.ToString();
                 }
             }
             else

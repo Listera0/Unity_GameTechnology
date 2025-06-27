@@ -8,13 +8,16 @@ using UnityEngine.UI;
 
 public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
+    public int slotIndex;
+
     private Canvas canvas;
     private GameObject itemObj;
     private IInventorySystem ownInventory;
-    private int slotIndex;
 
     void Awake()
     {
+        slotIndex = transform.GetSiblingIndex();
+
         canvas = GetComponentInParent<Canvas>();
         ownInventory = FindOwnInventory();
     }
@@ -26,6 +29,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             itemObj = transform.GetChild(0).gameObject;
             itemObj.GetComponent<CanvasGroup>().blocksRaycasts = false;
             itemObj.transform.SetParent(InventoryManager.instance.dragSlot.transform);
+            InventoryManager.instance.dragIndex = slotIndex;
         }
     }
 
@@ -61,7 +65,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             itemObj = InventoryManager.instance.dragSlot.transform.GetChild(0).gameObject;
             itemObj.transform.SetParent(transform);
             itemObj.transform.localPosition = Vector3.zero;
-            ownInventory.AddItem(ItemDataBase.instance.itemDatabases[0], slotIndex);
+            ownInventory.MoveItemToSlot(InventoryManager.instance.dragIndex, slotIndex);
         }
     }
 
