@@ -30,6 +30,7 @@ public class ItemMaker : MonoBehaviour, IInitializeInter
         if (!itemInformation) Debug.LogWarning("itemInformation is Null");
 
         currentItemButtons = new List<GameObject>();
+        SetCurrentItemIndex(1);
     }
 
     public void ToggleItemIndexButtonList()
@@ -79,7 +80,7 @@ public class ItemMaker : MonoBehaviour, IInitializeInter
     {
         if (!itemButtonPrefab) return;
 
-        int dataBaseCount = ItemDataBase.instance.itemDatabases.Count;
+        int dataBaseCount = ItemDataBase.instance.itemDatabases.Count - 1;
         int itemListCount = itemButtonListArea.transform.childCount;
 
         if (dataBaseCount < itemListCount)
@@ -97,7 +98,7 @@ public class ItemMaker : MonoBehaviour, IInitializeInter
             }
         }
 
-        int index = 0;
+        int index = 1;
         foreach (GameObject obj in currentItemButtons)
         {
             int itemIndex = ItemDataBase.instance.itemDatabases[index].itemIndex;

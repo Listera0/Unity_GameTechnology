@@ -17,15 +17,16 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
         int[] index = FindItemIndex(item, false);
         if (index[0] != -1)
         {
-            ItemData invItem = inventoryInfo.inventoryItemData[index[0], index[1]];
-            if (invItem.itemCount + item.itemCount <= item.itemMaxCount)
+            int invItemCount = inventoryInfo.inventoryItemData[index[0], index[1]].itemCount;
+
+            if (invItemCount + item.itemCount <= item.itemMaxCount)
             {
-                invItem.itemCount += item.itemCount;
+                inventoryInfo.inventoryItemData[index[0], index[1]].itemCount += item.itemCount;
             }
             else
             {
-                item.itemCount -= item.itemMaxCount - invItem.itemCount;
-                invItem.itemCount = item.itemMaxCount;
+                item.itemCount -= item.itemMaxCount - invItemCount;
+                inventoryInfo.inventoryItemData[index[0], index[1]].itemCount = item.itemMaxCount;
                 GetItem(item);
             }
         }
@@ -35,11 +36,13 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
             if (index[0] != -1)
             {
                 ItemData invItem = inventoryInfo.inventoryItemData[index[0], index[1]] = item;
+
                 if (invItem.itemCount > invItem.itemMaxCount)
                 {
                     int leftCount = invItem.itemCount - invItem.itemMaxCount;
                     ItemData newItem = new ItemData(invItem);
                     newItem.itemCount = leftCount;
+                    inventoryInfo.inventoryItemData[index[0], index[1]].itemCount = invItem.itemMaxCount;
                     GetItem(newItem);
                 }
             }
@@ -120,13 +123,16 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
             {
                 if (slotObj.childCount != 0)
                 {
-                    // change item obj img
+                    GameObject itemObj = slotObj.GetChild(0).gameObject;
+                    itemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
+                    itemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>().text = item.itemCount.ToString();
                 }
                 else
                 {
                     GameObject newItemObj = Instantiate(ItemDataBase.instance.itemObjPrefab, slotObj);
                     newItemObj.transform.position = slotObj.position;
-                    newItemObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = item.itemIndex.ToString();
+                    newItemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
+                    newItemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>().text = item.itemCount.ToString();
                 }
             }
             else

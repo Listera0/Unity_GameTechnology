@@ -54,9 +54,9 @@ public class ItemDataBase : Singleton<ItemDataBase>, IInitializeInter
     public void SetItemDataBase()
     {
         AddItemDataBase(ItemCategory.Others, "None", 0);
-        AddItemDataBase(ItemCategory.Consumeable, "Water", 100);
-        AddItemDataBase(ItemCategory.Consumeable, "Food", 100);
-        AddItemDataBase(ItemCategory.Others, "Coin", 1000);
+        AddItemDataBase(ItemCategory.Consumeable, "Water", 10);
+        AddItemDataBase(ItemCategory.Consumeable, "Food", 10);
+        AddItemDataBase(ItemCategory.Others, "Coin", 10);
     }
 
     public void AddItemDataBase(ItemCategory category, string name, int maxCount)
