@@ -20,7 +20,7 @@ public class RadioSelectButton : MonoBehaviour
     public Color VisibleColor = Color.black;
 
     private bool failedMatchObject;
-    private int selectIndex;
+    public int selectIndex;
 
     void Awake()
     {

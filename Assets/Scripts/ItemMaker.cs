@@ -70,7 +70,7 @@ public class ItemMaker : MonoBehaviour, IInitializeInter
 
     public void MakeItemToInventory()
     {
-        SingleInventory inventory = FindObjectOfType<SingleInventory>();
+        IInventorySystem inventory = InventoryPanelArea.GetSelectGameObject().GetComponent<IInventorySystem>();
         ItemData item = ItemDataBase.instance.GetItemData(selectItemIndex);
         item.itemCount = 1;
         inventory.GetItem(item);

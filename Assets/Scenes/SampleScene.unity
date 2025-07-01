@@ -5922,8 +5922,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c3ea34a246e5440bcad125e1b0998e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initSetting: 0
-  radioCategory: 0
+  initSetting: 1
+  radioCategory: 1
   selectObject:
   - {fileID: 1475731002}
   - {fileID: 1387884581}
@@ -5936,6 +5936,7 @@ MonoBehaviour:
   - {fileID: 1131803892}
   UnVisibleColor: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
   VisibleColor: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
+  selectIndex: 0
 --- !u!1 &272714367
 GameObject:
   m_ObjectHideFlags: 0
@@ -6124,6 +6125,7 @@ MonoBehaviour:
   - {fileID: 368353634}
   UnVisibleColor: {r: 0.76470596, g: 0.76470596, b: 0.76470596, a: 1}
   VisibleColor: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
+  selectIndex: 0
 --- !u!1 &288051779
 GameObject:
   m_ObjectHideFlags: 0
@@ -9702,6 +9704,7 @@ MonoBehaviour:
   - {fileID: 1131803892}
   UnVisibleColor: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
   VisibleColor: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
+  selectIndex: 0
 --- !u!1 &518452581
 GameObject:
   m_ObjectHideFlags: 0
@@ -11539,6 +11542,7 @@ MonoBehaviour:
   - {fileID: 1398827858}
   UnVisibleColor: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
   VisibleColor: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
+  selectIndex: 0
 --- !u!1 &658965903
 GameObject:
   m_ObjectHideFlags: 0
@@ -12878,7 +12882,7 @@ MonoBehaviour:
   itemButtonPrefab: {fileID: 7797600982599045216, guid: 8fb06f709c0210942954fed3222c773b, type: 3}
   itemGetButton: {fileID: 248545993}
   itemInformation: {fileID: 24468070}
-  InventoryPanelArea: {fileID: 0}
+  InventoryPanelArea: {fileID: 1613070625}
 --- !u!1 &719569704
 GameObject:
   m_ObjectHideFlags: 0
@@ -31863,6 +31867,7 @@ MonoBehaviour:
   - {fileID: 1398827858}
   UnVisibleColor: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
   VisibleColor: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
+  selectIndex: 0
 --- !u!114 &1613070626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39172,6 +39177,7 @@ MonoBehaviour:
   targetObject: []
   UnVisibleColor: {r: 0.8470589, g: 0.8470589, b: 0.8470589, a: 1}
   VisibleColor: {r: 1, g: 1, b: 1, a: 1}
+  selectIndex: 0
 --- !u!114 &2003687476
 MonoBehaviour:
   m_ObjectHideFlags: 0
