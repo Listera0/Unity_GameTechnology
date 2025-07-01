@@ -31,6 +31,7 @@ public class ItemMaker : MonoBehaviour, IInitializeInter
 
         currentItemButtons = new List<GameObject>();
         SetCurrentItemIndex(1);
+        ToggleItemIndexButtonList();
     }
 
     public void ToggleItemIndexButtonList()

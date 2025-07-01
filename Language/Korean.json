@@ -31,5 +31,14 @@
     "Use Item 1": "아아템 1 사용",
     "Use Item 2": "아아템 2 사용",
     "Use Item 3": "아아템 3 사용",
-    "Use Item 4": "아아템 4 사용"
+    "Use Item 4": "아아템 4 사용",
+    "Single": "단일형",
+    "Classification": "분류형",
+    "Allocation": "할당형",
+    "Extended": "확장형",
+    "Reset Inv": "초기화",
+    "Get Item": "획득",
+    "Equipment": "장비",
+    "Consumeable": "소모품",
+    "Others": "기타"
 }

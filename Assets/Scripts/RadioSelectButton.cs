@@ -56,6 +56,8 @@ public class RadioSelectButton : MonoBehaviour
 
         if (UnVisibleColor == VisibleColor)
             UnVisibleColor.a = UnVisibleColor.a * 0.5f;
+
+        UnVisibleSelect(0);
     }
 
     public void SelectIndex(GameObject obj)

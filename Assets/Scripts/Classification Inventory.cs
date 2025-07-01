@@ -141,14 +141,18 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
                 {
                     GameObject itemObj = slotObj.GetChild(0).gameObject;
                     itemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
+                    JsonTranslate.instance.TranslateText(itemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>());
                     itemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>().text = item.itemCount.ToString();
+                    JsonTranslate.instance.TranslateText(itemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>());
                 }
                 else
                 {
                     GameObject newItemObj = Instantiate(ItemDataBase.instance.itemObjPrefab, slotObj);
                     newItemObj.transform.position = slotObj.position;
                     newItemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
+                    JsonTranslate.instance.TranslateText(newItemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>());
                     newItemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>().text = item.itemCount.ToString();
+                    JsonTranslate.instance.TranslateText(newItemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>());
                 }
             }
             else
@@ -231,6 +235,7 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
             int sortIndex = index;
             GameObject obj = Instantiate(categoryButtonPrefab, categoryArea.transform);
             obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = category.ToString();
+            JsonTranslate.instance.TranslateText(obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>());
             obj.GetComponent<Button>().onClick.AddListener(() => SelectIndex(sortIndex));
             radioSelectButton.selectObject[index] = obj;
             index++;
