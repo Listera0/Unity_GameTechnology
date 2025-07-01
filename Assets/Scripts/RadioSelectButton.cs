@@ -3,30 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum RadioCategory
+{
+    Unlinked = 0,
+    Linked
+}
+
 public class RadioSelectButton : MonoBehaviour
 {
+    public bool initSetting;
+    public RadioCategory radioCategory;
     public GameObject[] selectObject;
     public GameObject[] targetObject;
 
-    public Color UnVisibleColor;
-    public Color VisibleColor;
+    public Color UnVisibleColor = Color.black;
+    public Color VisibleColor = Color.black;
 
     private bool failedMatchObject;
     private int selectIndex;
 
     void Awake()
     {
-        if (selectObject.Length != targetObject.Length)
-        {
-            failedMatchObject = true;
-            Debug.LogWarning("There's no same length between selectObject and targetObject!");
-        }
-        else
+        if (initSetting) RadioSelectButtonInit();
+    }
+
+    public void RadioSelectButtonInit()
+    {
+        if (radioCategory == RadioCategory.Unlinked)
         {
             failedMatchObject = false;
             foreach (GameObject obj in selectObject)
             {
                 obj.GetComponent<Button>().onClick.AddListener(() => SelectIndex(obj));
+            }
+        }
+        else if (radioCategory == RadioCategory.Linked)
+        {
+            if (selectObject.Length != targetObject.Length)
+            {
+                failedMatchObject = true;
+                Debug.LogWarning("There's no same length between selectObject and targetObject!");
+            }
+            else
+            {
+                failedMatchObject = false;
+                foreach (GameObject obj in selectObject)
+                {
+                    obj.GetComponent<Button>().onClick.AddListener(() => SelectIndex(obj));
+                }
             }
         }
 
@@ -48,26 +72,26 @@ public class RadioSelectButton : MonoBehaviour
         return targetObject[selectIndex];
     }
 
-    private void UnVisibleSelect(int exception)
+    public void UnVisibleSelect(int exception)
     {
         for (int i = 0; i < selectObject.Length; i++)
         {
             if (i == exception)
             {
                 selectObject[i].GetComponent<Image>().color = VisibleColor;
-                targetObject[i].SetActive(true);
+                if(radioCategory == RadioCategory.Linked) { targetObject[i].SetActive(true); }
                 continue;
             }
 
             selectObject[i].GetComponent<Image>().color = UnVisibleColor;
-            targetObject[i].SetActive(false);
+            if(radioCategory == RadioCategory.Linked) { targetObject[i].SetActive(false); }
         }
     }
 
     private int FindSelectObj(GameObject select)
     {
         for (int i = 0; i < selectObject.Length; i++)
-        { 
+        {
             if (select == selectObject[i])
             {
                 return i;
