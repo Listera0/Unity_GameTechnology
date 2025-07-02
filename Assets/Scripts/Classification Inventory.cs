@@ -20,7 +20,7 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
         inventoryInfo = new InventoryInfo[Enum.GetValues(typeof(ItemCategory)).Length];
         for (int i = 0; i < inventoryInfo.Length; i++)
         {
-            inventoryInfo[i] = new InventoryInfo(8, 8);
+            inventoryInfo[i] = new InventoryInfo(64);
         }
 
         SetCategoryArea();
@@ -29,36 +29,36 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
     public void GetItem(ItemData item)
     {
         itemCategoryIndex = (int)item.itemCategory;
+        int index = FindItemIndex(item, false);
 
-        int[] index = FindItemIndex(item, false);
-        if (index[0] != -1)
+        if (index != -1)
         {
-            int invItemCount = inventoryInfo[itemCategoryIndex].inventoryItemData[index[0], index[1]].itemCount;
+            int invItemCount = inventoryInfo[itemCategoryIndex].inventoryItemData[index].itemCount;
 
             if (invItemCount + item.itemCount <= item.itemMaxCount)
             {
-                inventoryInfo[itemCategoryIndex].inventoryItemData[index[0], index[1]].itemCount += item.itemCount;
+                inventoryInfo[itemCategoryIndex].inventoryItemData[index].itemCount += item.itemCount;
             }
             else
             {
                 item.itemCount -= item.itemMaxCount - invItemCount;
-                inventoryInfo[itemCategoryIndex].inventoryItemData[index[0], index[1]].itemCount = item.itemMaxCount;
+                inventoryInfo[itemCategoryIndex].inventoryItemData[index].itemCount = item.itemMaxCount;
                 GetItem(item);
             }
         }
         else
         {
             index = FindEmptySlot();
-            if (index[0] != -1)
+            if (index != -1)
             {
-                ItemData invItem = inventoryInfo[itemCategoryIndex].inventoryItemData[index[0], index[1]] = item;
+                ItemData invItem = inventoryInfo[itemCategoryIndex].inventoryItemData[index] = item;
 
                 if (invItem.itemCount > invItem.itemMaxCount)
                 {
                     int leftCount = invItem.itemCount - invItem.itemMaxCount;
-                    ItemData newItem = new ItemData(invItem);
+                    ItemData newItem = invItem;
                     newItem.itemCount = leftCount;
-                    inventoryInfo[itemCategoryIndex].inventoryItemData[index[0], index[1]].itemCount = invItem.itemMaxCount;
+                    inventoryInfo[itemCategoryIndex].inventoryItemData[index].itemCount = invItem.itemMaxCount;
                     GetItem(newItem);
                 }
             }
@@ -72,19 +72,17 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
 
     public void AddItem(ItemData item, int index)
     {
-        int[] Iindex = GetInventoryIndex(index);
-
-        inventoryInfo[itemCategoryIndex].inventoryItemData[Iindex[0], Iindex[1]] = item;
+        inventoryInfo[itemCategoryIndex].inventoryItemData[index] = item;
         ShowInventory();
     }
 
     public void RemoveItem(ItemData item)
     {
-        int[] index = FindItemIndex(item, true);
+        int index = FindItemIndex(item, true);
 
-        if (index[0] != -1)
+        if (index != -1)
         {
-            ItemData invItem = inventoryInfo[itemCategoryIndex].inventoryItemData[index[0], index[1]];
+            ItemData invItem = inventoryInfo[itemCategoryIndex].inventoryItemData[index];
 
             if (invItem.itemCount >= item.itemCount)
             {
@@ -102,30 +100,25 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
 
     public void RemoveItemFromSlot(int index, int count)
     {
-        int[] Iindex = GetInventoryIndex(index);
-
         if (count == -1)
         {
-            inventoryInfo[itemCategoryIndex].inventoryItemData[Iindex[0], Iindex[1]] = ItemDataBase.instance.NullItem();
+            inventoryInfo[itemCategoryIndex].inventoryItemData[index] = ItemDataBase.instance.NullItem();
             return;
         }
 
-        inventoryInfo[itemCategoryIndex].inventoryItemData[Iindex[0], Iindex[1]].itemCount -= count;
-        if (inventoryInfo[itemCategoryIndex].inventoryItemData[Iindex[0], Iindex[1]].itemCount <= 0)
+        inventoryInfo[itemCategoryIndex].inventoryItemData[index].itemCount -= count;
+        if (inventoryInfo[itemCategoryIndex].inventoryItemData[index].itemCount <= 0)
         {
-            inventoryInfo[itemCategoryIndex].inventoryItemData[Iindex[0], Iindex[1]] = ItemDataBase.instance.NullItem();
+            inventoryInfo[itemCategoryIndex].inventoryItemData[index] = ItemDataBase.instance.NullItem();
         }
         ShowInventory();
     }
 
     public void MoveItemToSlot(int fromIndex, int toIndex)
     {
-        int[] FIndex = GetInventoryIndex(fromIndex);
-        int[] TIndex = GetInventoryIndex(toIndex);
-
-        ItemData item = inventoryInfo[itemCategoryIndex].inventoryItemData[FIndex[0], FIndex[1]];
-        inventoryInfo[itemCategoryIndex].inventoryItemData[TIndex[0], TIndex[1]] = item;
-        inventoryInfo[itemCategoryIndex].inventoryItemData[FIndex[0], FIndex[1]] = ItemDataBase.instance.NullItem();
+        ItemData item = inventoryInfo[itemCategoryIndex].inventoryItemData[fromIndex];
+        inventoryInfo[itemCategoryIndex].inventoryItemData[toIndex] = item;
+        inventoryInfo[itemCategoryIndex].inventoryItemData[fromIndex] = ItemDataBase.instance.NullItem();
     }
 
     public void ShowInventory()
@@ -167,60 +160,40 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
         }
     }
 
-    public int[] FindItemIndex(ItemData item, bool includeMaxStack)
+    public int FindItemIndex(ItemData item, bool includeMaxStack)
     {
-        int[] returnValue = new int[2] { -1, -1 };
-
-        for (int i = 0; i < inventoryInfo[itemCategoryIndex].inventoryItemData.GetLength(0); i++)
+        for (int i = 0; i < inventoryInfo[itemCategoryIndex].inventoryItemData.Length; i++)
         {
-            for (int j = 0; j < inventoryInfo[itemCategoryIndex].inventoryItemData.GetLength(1); j++)
-            {
-                if (inventoryInfo[itemCategoryIndex].inventoryItemData[i, j].itemIndex == item.itemIndex)
+            if (inventoryInfo[itemCategoryIndex].inventoryItemData[i].itemIndex == item.itemIndex)
                 {
                     if (includeMaxStack)
                     {
-                        return new int[2] { i, j };
+                        return i;
                     }
                     else
                     {
-                        if (inventoryInfo[itemCategoryIndex].inventoryItemData[i, j].itemCount != inventoryInfo[itemCategoryIndex].inventoryItemData[i, j].itemMaxCount)
+                        if (inventoryInfo[itemCategoryIndex].inventoryItemData[i].itemCount != inventoryInfo[itemCategoryIndex].inventoryItemData[i].itemMaxCount)
                         {
-                            return new int[2] { i, j };
+                            return i;
                         }
                     }
                 }
-            }
         }
 
-        return returnValue;
+        return -1;
     }
 
-    public int[] FindEmptySlot()
+    public int FindEmptySlot()
     {
-        int[] returnValue = new int[2] { -1, -1 };
-
         for (int i = 0; i < inventoryInfo[itemCategoryIndex].inventoryItemData.GetLength(0); i++)
         {
-            for (int j = 0; j < inventoryInfo[itemCategoryIndex].inventoryItemData.GetLength(1); j++)
+            if (inventoryInfo[itemCategoryIndex].inventoryItemData[i].itemIndex == 0)
             {
-                if (inventoryInfo[itemCategoryIndex].inventoryItemData[i, j].itemIndex == 0)
-                {
-                    return new int[2] { i, j };
-                }
+                return i;
             }
         }
 
-        return returnValue;
-    }
-
-    public int[] GetInventoryIndex(int index)
-    {
-        int[] returnValue = new int[2] { -1, -1 };
-
-        returnValue[0] = index / inventoryInfo[itemCategoryIndex].inventoryItemData.GetLength(0);
-        returnValue[1] = index % inventoryInfo[itemCategoryIndex].inventoryItemData.GetLength(1);
-
-        return returnValue;
+        return -1;
     }
 
     public void SetCategoryArea()

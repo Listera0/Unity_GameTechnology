@@ -1,14 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryInfo
 {
-    public ItemData[,] inventoryItemData;
+    public ItemData[] inventoryItemData;
+    public int[] inventoryItemLink;
 
-    public InventoryInfo(int sizeX, int sizeY)
+    public InventoryInfo(int size)
     {
-        inventoryItemData = new ItemData[sizeX, sizeY];
+        inventoryItemData = new ItemData[size];
+        inventoryItemLink = new int[size];
+        Array.Fill(inventoryItemLink, -1);
     }
 }
 
@@ -27,11 +31,9 @@ public interface IInventorySystem
     // Show Inventory Item to UI
     void ShowInventory();
     // find item Slot Index Optional includeMaxStack
-    int[] FindItemIndex(ItemData item, bool includeMaxStack);
+    int FindItemIndex(ItemData item, bool includeMaxStack);
     // Find Empty Slot
-    int[] FindEmptySlot();
-    // translate index to inventory slot index(int -> int[2])
-    int[] GetInventoryIndex(int index);
+    int FindEmptySlot();
 }
 
 public class InventoryManager : Singleton<InventoryManager>, IInitializeInter
