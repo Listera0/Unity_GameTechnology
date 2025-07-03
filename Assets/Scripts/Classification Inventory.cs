@@ -136,7 +136,6 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
                     itemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
                     JsonTranslate.instance.TranslateText(itemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>());
                     itemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>().text = item.itemCount.ToString();
-                    JsonTranslate.instance.TranslateText(itemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>());
                 }
                 else
                 {
@@ -145,7 +144,6 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
                     newItemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
                     JsonTranslate.instance.TranslateText(newItemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>());
                     newItemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>().text = item.itemCount.ToString();
-                    JsonTranslate.instance.TranslateText(newItemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>());
                 }
             }
             else
@@ -185,7 +183,7 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
 
     public int FindEmptySlot()
     {
-        for (int i = 0; i < inventoryInfo[itemCategoryIndex].inventoryItemData.GetLength(0); i++)
+        for (int i = 0; i < inventoryInfo[itemCategoryIndex].inventoryItemData.Length; i++)
         {
             if (inventoryInfo[itemCategoryIndex].inventoryItemData[i].itemIndex == 0)
             {

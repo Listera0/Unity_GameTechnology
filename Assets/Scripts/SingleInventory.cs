@@ -120,7 +120,6 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
                     itemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
                     JsonTranslate.instance.TranslateText(itemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>());
                     itemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>().text = item.itemCount.ToString();
-                    JsonTranslate.instance.TranslateText(itemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>());
                 }
                 else
                 {
@@ -129,7 +128,6 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
                     newItemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
                     JsonTranslate.instance.TranslateText(newItemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>());
                     newItemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>().text = item.itemCount.ToString();
-                    JsonTranslate.instance.TranslateText(newItemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>());
                 }
             }
             else
@@ -169,7 +167,7 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
 
     public int FindEmptySlot()
     {
-        for (int i = 0; i < inventoryInfo.inventoryItemData.GetLength(0); i++)
+        for (int i = 0; i < inventoryInfo.inventoryItemData.Length; i++)
         {
             if (inventoryInfo.inventoryItemData[i].itemIndex == 0)
             {

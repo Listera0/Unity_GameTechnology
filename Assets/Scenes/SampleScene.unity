@@ -17522,6 +17522,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 972006461}
+  - component: {fileID: 972006462}
   m_Layer: 5
   m_Name: Allocation Panel
   m_TagString: Untagged
@@ -17549,6 +17550,18 @@ RectTransform:
   m_AnchoredPosition: {x: -466.25, y: 0}
   m_SizeDelta: {x: -1007.5, y: -50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &972006462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 972006460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a4cb7391cdf4bc4e9c01df88dd7b3e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &973005237
 GameObject:
   m_ObjectHideFlags: 0
