@@ -82,20 +82,21 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
 
         if (index != -1)
         {
-            ItemData invItem = inventoryInfo[itemCategoryIndex].inventoryItemData[index];
+            int invItemCount = inventoryInfo[itemCategoryIndex].inventoryItemData[index].itemCount;
 
-            if (invItem.itemCount >= item.itemCount)
+            if (invItemCount >= item.itemCount)
             {
-                invItem.itemCount -= item.itemCount;
+                inventoryInfo[itemCategoryIndex].inventoryItemData[index].itemCount -= item.itemCount;
             }
             else
             {
-                item.itemCount = item.itemCount - invItem.itemCount;
-                invItem.itemCount = 0;
+                item.itemCount -= invItemCount;
+                inventoryInfo[itemCategoryIndex].inventoryItemData[index] = ItemDataBase.instance.NullItem();
                 RemoveItem(item);
             }
+            
+            ShowInventory();
         }
-        ShowInventory();
     }
 
     public void RemoveItemFromSlot(int index, int count)

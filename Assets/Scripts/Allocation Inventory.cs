@@ -43,7 +43,6 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
                 int leftCount = item.itemCount - item.itemMaxCount;
 
                 List<int> itemList = GetOtherItemsWithSize(index, item.itemSize);
-                print(itemList.Count);
                 foreach (int i in itemList)
                 {
                     inventoryInfo.inventoryItemData[i] = item;
@@ -70,17 +69,81 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
 
     public void AddItem(ItemData item, int index)
     {
+        if (CheckSizeAble(index, item.itemSize))
+        {
+            List<int> itemIndexs = GetOtherItemsWithSize(index, item.itemSize);
+            foreach (int i in itemIndexs)
+            {
+                inventoryInfo.inventoryItemData[i] = item;
+                inventoryInfo.inventoryItemLink[i] = index;
+            }
+        }
 
+        ShowInventory();
     }
 
     public void RemoveItem(ItemData item)
     {
+        int index = FindItemIndex(item, true);
 
+        if (index != -1)
+        {
+            List<int> itemIndexs = GetOtherItemsWithSize(index, inventoryInfo.inventoryItemData[index].itemSize);
+            int invItemCount = inventoryInfo.inventoryItemData[index].itemCount;
+
+            if (invItemCount >= item.itemCount)
+            {
+                foreach (int i in itemIndexs)
+                {
+                    inventoryInfo.inventoryItemData[i].itemCount -= item.itemCount;
+                }
+            }
+            else
+            {
+                item.itemCount -= invItemCount;
+                foreach (int i in itemIndexs)
+                {
+                    inventoryInfo.inventoryItemData[i] = ItemDataBase.instance.NullItem();
+                    inventoryInfo.inventoryItemLink[i] = -1;
+                }
+                RemoveItem(item);
+            }
+            
+            ShowInventory();
+        }
     }
 
     public void RemoveItemFromSlot(int index, int count)
     {
+        List<int> itemIndexs = GetOtherItemsWithSize(index, inventoryInfo.inventoryItemData[index].itemSize);
+        if (count == -1)
+        {
+            foreach (int i in itemIndexs)
+            {
+                inventoryInfo.inventoryItemData[i] = ItemDataBase.instance.NullItem();
+                inventoryInfo.inventoryItemLink[i] = -1;
+            }
+            ShowInventory();
+            return;
+        }
 
+        if (inventoryInfo.inventoryItemData[index].itemCount > count)
+        {
+            foreach (int i in itemIndexs)
+            {
+                inventoryInfo.inventoryItemData[i].itemCount -= count;
+            }
+        }
+        else
+        {
+            foreach (int i in itemIndexs)
+            {
+                inventoryInfo.inventoryItemData[i] = ItemDataBase.instance.NullItem();
+                inventoryInfo.inventoryItemLink[i] = -1;
+            }
+        }
+
+        ShowInventory();
     }
 
     public void MoveItemToSlot(int fromIndex, int toIndex)
@@ -214,17 +277,13 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
         Vector2 size = inventoryInfo.inventoryItemData[index].itemSize;
 
         int startX = index % sizeX;
-        int startY = index / sizeX;
-
-        print((int)size.y);
-        print((int)size.x);
+        int startY = index / sizeY;
 
         for (int y = 0; y < (int)size.y; y++)
         {
             for (int x = 0; x < (int)size.x; x++)
             {
-                int checkIndex = (startY + y) * sizeX + (startX + x);
-                print(checkIndex);
+                int checkIndex = (startY + y) * sizeY + (startX + x);
 
                 if (!returnValue.Contains(checkIndex))
                     returnValue.Add(checkIndex);
@@ -239,17 +298,13 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
         List<int> returnValue = new List<int>();
 
         int startX = index % sizeX;
-        int startY = index / sizeX;
-
-        print((int)size.y);
-        print((int)size.x);
+        int startY = index / sizeY;
 
         for (int y = 0; y < (int)size.y; y++)
         {
             for (int x = 0; x < (int)size.x; x++)
             {
-                int checkIndex = (startY + y) * sizeX + (startX + x);
-                print(checkIndex);
+                int checkIndex = (startY + y) * sizeY + (startX + x);
 
                 if (!returnValue.Contains(checkIndex))
                     returnValue.Add(checkIndex);
@@ -262,7 +317,7 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
     private int GetCountItem(int index)
     {
         Vector2 size = inventoryInfo.inventoryItemData[index].itemSize;
-        return index + (sizeY * ((int)size.y - 1)) + ((int)size.x - 1);
+        return GetOwnerItem(index) + (sizeY * ((int)size.y - 1)) + ((int)size.x - 1);
     }
 
     private bool CheckSizeAble(int index, Vector2 size)

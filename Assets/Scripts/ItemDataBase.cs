@@ -47,7 +47,7 @@ public class ItemDataBase : Singleton<ItemDataBase>, IInitializeInter
     public void SetItemDataBase()
     {
         AddItemDataBase(ItemCategory.Others, "None", 0, new Vector2(0, 0));
-        AddItemDataBase(ItemCategory.Consumeable, "Water", 10, new Vector2(2, 1));
+        AddItemDataBase(ItemCategory.Consumeable, "Water", 10, new Vector2(1, 2));
         AddItemDataBase(ItemCategory.Consumeable, "Food", 10, new Vector2(2, 1));
         AddItemDataBase(ItemCategory.Others, "Coin", 10, new Vector2(1, 1));
     }
