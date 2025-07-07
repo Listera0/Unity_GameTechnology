@@ -9,7 +9,12 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
 
     void Awake()
     {
-        inventoryInfo = new InventoryInfo(64);
+        inventoryInfo = new InventoryInfo(InventoryCategory.Single, 64);
+    }
+
+    public InventoryCategory GetInventoryCategory()
+    {
+        return inventoryInfo.inventoryCategory;
     }
 
     public void GetItem(ItemData item)

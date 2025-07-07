@@ -20,10 +20,15 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
         inventoryInfo = new InventoryInfo[Enum.GetValues(typeof(ItemCategory)).Length];
         for (int i = 0; i < inventoryInfo.Length; i++)
         {
-            inventoryInfo[i] = new InventoryInfo(64);
+            inventoryInfo[i] = new InventoryInfo(InventoryCategory.Classification, 64);
         }
 
         SetCategoryArea();
+    }
+
+    public InventoryCategory GetInventoryCategory()
+    {
+        return inventoryInfo[0].inventoryCategory;
     }
 
     public void GetItem(ItemData item)

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemMaker : MonoBehaviour, IInitializeInter
+public class ItemMaker : Singleton<ItemMaker>, IInitializeInter
 {
     public GameObject itemButtonListPanel;
     public GameObject itemButtonListArea;

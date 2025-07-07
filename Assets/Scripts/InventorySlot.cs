@@ -13,6 +13,8 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Canvas canvas;
     private GameObject itemObj;
     private IInventorySystem ownInventory;
+    private GameObject dragSlot;
+    private bool isDragging;
 
     void Awake()
     {
@@ -20,33 +22,50 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         canvas = GetComponentInParent<Canvas>();
         ownInventory = FindOwnInventory();
+        dragSlot = InventoryManager.instance.dragSlot;
+        isDragging = false;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (InventoryManager.instance.dragSlot && transform.childCount != 0)
         {
-            itemObj = transform.GetChild(0).gameObject;
-            itemObj.GetComponent<CanvasGroup>().blocksRaycasts = false;
-            itemObj.transform.SetParent(InventoryManager.instance.dragSlot.transform);
+            if (ownInventory.GetInventoryCategory() == InventoryCategory.Allocation)
+            {
+                AllocationInventory inv = (AllocationInventory)ownInventory;
+                List<int> items = inv.GetOtherItems(slotIndex);
+            }
+            else if (ownInventory.GetInventoryCategory() == InventoryCategory.Extended)
+            {
+                // none work
+            }
+            else
+            {
+                itemObj = transform.GetChild(0).gameObject;
+                itemObj.GetComponent<CanvasGroup>().blocksRaycasts = false;
+                itemObj.transform.SetParent(dragSlot.transform);
+                itemObj.transform.localPosition = Vector3.zero;
+            }
+
             InventoryManager.instance.dragIndex = slotIndex;
+            dragSlot.transform.position = eventData.position;
+            isDragging = true;
         }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!itemObj) return;
+        if (!isDragging) return;
 
-        // itemObj.transform.position = eventData.delta / canvas.scaleFactor;
-        itemObj.transform.position = eventData.position;
+        dragSlot.transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!itemObj) return;
-        // itemObj.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        if (!isDragging) return;
+        isDragging = false;
 
-        if (itemObj.transform.parent == InventoryManager.instance.dragSlot.transform)
+        if (itemObj.transform.parent == dragSlot.transform)
         {
             itemObj.transform.SetParent(transform);
             itemObj.transform.localPosition = Vector3.zero;
@@ -54,15 +73,14 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         else
         {
             itemObj = null;
-            ownInventory.RemoveItemFromSlot(slotIndex, -1);
         }
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (InventoryManager.instance.dragSlot.transform.childCount != 0 && InventoryManager.instance.dragSlot.transform.GetChild(0) != itemObj)
+        if (dragSlot.transform.childCount != 0 && dragSlot.transform.GetChild(0) != itemObj)
         {
-            itemObj = InventoryManager.instance.dragSlot.transform.GetChild(0).gameObject;
+            itemObj = dragSlot.transform.GetChild(0).gameObject;
             itemObj.transform.SetParent(transform);
             itemObj.transform.localPosition = Vector3.zero;
             ownInventory.MoveItemToSlot(InventoryManager.instance.dragIndex, slotIndex);

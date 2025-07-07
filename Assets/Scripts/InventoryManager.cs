@@ -3,13 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum InventoryCategory
+{
+    Single = 0,
+    Classification,
+    Allocation,
+    Extended
+}
+
 public class InventoryInfo
 {
+    public InventoryCategory inventoryCategory;
     public ItemData[] inventoryItemData;
     public int[] inventoryItemLink;
 
-    public InventoryInfo(int size)
+    public InventoryInfo(InventoryCategory category, int size)
     {
+        inventoryCategory = category;
         inventoryItemData = new ItemData[size];
         inventoryItemLink = new int[size];
         Array.Fill(inventoryItemLink, -1);
@@ -18,6 +28,8 @@ public class InventoryInfo
 
 public interface IInventorySystem
 {
+    // return inventorycategory
+    InventoryCategory GetInventoryCategory();
     // Only Add Item, Stacking if can Stack
     void GetItem(ItemData item);
     // Add Item With SlotIndex

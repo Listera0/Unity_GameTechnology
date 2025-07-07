@@ -11,8 +11,13 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
 
     void Awake()
     {
-        inventoryInfo = new InventoryInfo(64);
+        inventoryInfo = new InventoryInfo(InventoryCategory.Allocation, 64);
         sizeX = 8; sizeY = 8;
+    }
+
+    public InventoryCategory GetInventoryCategory()
+    {
+        return inventoryInfo.inventoryCategory;
     }
 
     public void GetItem(ItemData item)
@@ -266,12 +271,12 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
         }
     }
 
-    private int GetOwnerItem(int index)
+    public int GetOwnerItem(int index)
     {
         return inventoryInfo.inventoryItemLink[index];
     }
 
-    private List<int> GetOtherItems(int index)
+    public List<int> GetOtherItems(int index)
     {
         List<int> returnValue = new List<int>();
         Vector2 size = inventoryInfo.inventoryItemData[index].itemSize;
@@ -293,7 +298,7 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
         return returnValue;
     }
 
-    private List<int> GetOtherItemsWithSize(int index, Vector2 size)
+    public List<int> GetOtherItemsWithSize(int index, Vector2 size)
     {
         List<int> returnValue = new List<int>();
 
@@ -314,13 +319,13 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
         return returnValue;
     }
 
-    private int GetCountItem(int index)
+    public int GetCountItem(int index)
     {
         Vector2 size = inventoryInfo.inventoryItemData[index].itemSize;
         return GetOwnerItem(index) + (sizeY * ((int)size.y - 1)) + ((int)size.x - 1);
     }
 
-    private bool CheckSizeAble(int index, Vector2 size)
+    public bool CheckSizeAble(int index, Vector2 size)
     {
         int startX = index % sizeX;
         int startY = index / sizeX;
