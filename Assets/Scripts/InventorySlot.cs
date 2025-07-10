@@ -33,7 +33,18 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             if (ownInventory.GetInventoryCategory() == InventoryCategory.Allocation)
             {
                 AllocationInventory inv = (AllocationInventory)ownInventory;
-                List<int> items = inv.GetOtherItems(slotIndex);
+                int ownerIndex = inv.GetOwnerItem(slotIndex);
+                int offset = slotIndex - ownerIndex;
+
+                List<int> items = inv.GetOtherItems(ownerIndex);
+
+                foreach (int ind in items)
+                {
+                    GameObject invObj = inv.GetInventorySlotObj(ind).transform.GetChild(0).gameObject;
+                    invObj.GetComponent<CanvasGroup>().blocksRaycasts = false;
+                    invObj.transform.SetParent(dragSlot.transform);
+                    invObj.transform.localPosition = GetOffsetLocation(slotIndex - ind, 8);
+                }
             }
             else if (ownInventory.GetInventoryCategory() == InventoryCategory.Extended)
             {
@@ -85,6 +96,19 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             itemObj.transform.localPosition = Vector3.zero;
             ownInventory.MoveItemToSlot(InventoryManager.instance.dragIndex, slotIndex);
         }
+
+        if (ownInventory.GetInventoryCategory() == InventoryCategory.Allocation)
+        {
+            
+        }
+        else if (ownInventory.GetInventoryCategory() == InventoryCategory.Extended)
+        {
+            // none work
+        }
+        else
+        {
+
+        }
     }
 
     private IInventorySystem FindOwnInventory()
@@ -101,5 +125,15 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
 
         return null;
+    }
+
+    private Vector3 GetOffsetLocation(int offset, int size)
+    {
+        int yOffset = offset / size;
+        int xOffset = -(offset - yOffset * size);
+        int slotSize = 80;
+
+        Vector3 returnVector = new Vector3(slotSize * xOffset, slotSize * yOffset, 0);
+        return returnVector;
     }
 }

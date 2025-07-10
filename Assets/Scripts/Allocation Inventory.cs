@@ -20,6 +20,16 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
         return inventoryInfo.inventoryCategory;
     }
 
+    public ItemData GetInventoryItem(int index)
+    {
+        return inventoryInfo.inventoryItemData[index];
+    }
+
+    public GameObject GetInventorySlotObj(int index)
+    {
+        return transform.GetChild(0).GetChild(index).gameObject;
+    }
+
     public void GetItem(ItemData item)
     {
         int index = FindItemIndex(item, false);
