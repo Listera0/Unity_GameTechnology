@@ -97,6 +97,17 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
         ShowInventory();
     }
 
+    public void AddItemToIndex(int index, int count)
+    {
+        List<int> itemIndexs = GetOtherItems(index);
+        foreach (int i in itemIndexs)
+        {
+            inventoryInfo.inventoryItemData[i].itemCount += count;
+        }
+
+        ShowInventory();
+    }
+
     public void RemoveItem(ItemData item)
     {
         int index = FindItemIndex(item, true);
@@ -123,7 +134,7 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
                 }
                 RemoveItem(item);
             }
-            
+
             ShowInventory();
         }
     }
@@ -163,7 +174,57 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
 
     public void MoveItemToSlot(int fromIndex, int toIndex)
     {
+        int fromOwner = GetOwnerItem(fromIndex);
+        ItemData fromItem = inventoryInfo.inventoryItemData[fromOwner];
+        
+        int toOwner = GetOwnerItem(toIndex);
 
+        if (toOwner == -1)
+        {
+            List<int> itemIndexs = GetOtherItems(fromOwner);
+            foreach (int index in itemIndexs)
+            {
+                int offset = index - fromOwner;
+                int targetIndex = toIndex + offset;
+
+                // print(string.Format("fromindex = {0} | targetindex = {1}", index, targetIndex));
+
+                ItemData item = inventoryInfo.inventoryItemData[index];
+                inventoryInfo.inventoryItemData[targetIndex] = item;
+                inventoryInfo.inventoryItemLink[targetIndex] = toIndex;
+                inventoryInfo.inventoryItemData[index] = ItemDataBase.instance.NullItem();
+                inventoryInfo.inventoryItemLink[index] = -1;
+            }
+
+            ShowInventory();
+            return;
+        }
+
+        ItemData toItem = inventoryInfo.inventoryItemData[toOwner];
+
+        if (toOwner == fromOwner)
+        {
+            // required
+            return;
+        }
+
+        if (fromItem.itemIndex == toItem.itemIndex)
+        {
+            if (toItem.itemMaxCount >= toItem.itemCount + fromItem.itemCount)
+            {
+                AddItemToIndex(toOwner, fromItem.itemCount);
+                RemoveItemFromSlot(fromOwner, -1);
+            }
+            else
+            {
+                int value = toItem.itemMaxCount - toItem.itemCount;
+                AddItemToIndex(toOwner, value);
+                RemoveItemFromSlot(fromOwner, value);
+            }
+            
+            print("work_2");
+            return;
+        }
     }
 
     public void ShowInventory()

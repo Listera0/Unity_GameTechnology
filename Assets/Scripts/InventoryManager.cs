@@ -52,10 +52,27 @@ public class InventoryManager : Singleton<InventoryManager>, IInitializeInter
 {
     public GameObject dragSlot;
     public int dragIndex;
+    public int dragOffset;
     public ItemData movingItemData;
+    public Transform trashObject;
 
     public void Initialize()
     {
         if (!dragSlot) Debug.LogWarning("dragSlot is Null");
+    }
+
+    public void ClearTrash()
+    {
+        List<Transform> childs = new List<Transform>();
+
+        foreach (Transform child in dragSlot.transform)
+        {
+            childs.Add(child);
+        }
+
+        foreach (Transform child in childs)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }

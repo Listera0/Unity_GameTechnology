@@ -30,14 +30,17 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (InventoryManager.instance.dragSlot && transform.childCount != 0)
         {
+            itemObj = transform.GetChild(0).gameObject;
+
             if (ownInventory.GetInventoryCategory() == InventoryCategory.Allocation)
             {
                 AllocationInventory inv = (AllocationInventory)ownInventory;
                 int ownerIndex = inv.GetOwnerItem(slotIndex);
-                int offset = slotIndex - ownerIndex;
+
+                InventoryManager.instance.dragOffset = slotIndex - ownerIndex;
+                InventoryManager.instance.movingItemData = inv.GetInventoryItem(ownerIndex);
 
                 List<int> items = inv.GetOtherItems(ownerIndex);
-
                 foreach (int ind in items)
                 {
                     GameObject invObj = inv.GetInventorySlotObj(ind).transform.GetChild(0).gameObject;
@@ -52,7 +55,6 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
             else
             {
-                itemObj = transform.GetChild(0).gameObject;
                 itemObj.GetComponent<CanvasGroup>().blocksRaycasts = false;
                 itemObj.transform.SetParent(dragSlot.transform);
                 itemObj.transform.localPosition = Vector3.zero;
@@ -76,30 +78,23 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (!isDragging) return;
         isDragging = false;
 
-        if (itemObj.transform.parent == dragSlot.transform)
-        {
-            itemObj.transform.SetParent(transform);
-            itemObj.transform.localPosition = Vector3.zero;
-        }
-        else
-        {
-            itemObj = null;
-        }
-    }
-
-    public void OnDrop(PointerEventData eventData)
-    {
-        if (dragSlot.transform.childCount != 0 && dragSlot.transform.GetChild(0) != itemObj)
-        {
-            itemObj = dragSlot.transform.GetChild(0).gameObject;
-            itemObj.transform.SetParent(transform);
-            itemObj.transform.localPosition = Vector3.zero;
-            ownInventory.MoveItemToSlot(InventoryManager.instance.dragIndex, slotIndex);
-        }
-
         if (ownInventory.GetInventoryCategory() == InventoryCategory.Allocation)
         {
-            
+            if (itemObj.transform.parent == dragSlot.transform)
+            {
+                foreach (Transform child in dragSlot.transform)
+                {
+                    child.SetParent(InventoryManager.instance.trashObject);
+                    child.localPosition = Vector3.zero;
+                }
+                InventoryManager.instance.ClearTrash();
+                AllocationInventory inv = (AllocationInventory)ownInventory;
+                inv.ShowInventory();
+            }
+            else
+            {
+                itemObj = null;
+            }
         }
         else if (ownInventory.GetInventoryCategory() == InventoryCategory.Extended)
         {
@@ -107,7 +102,69 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
         else
         {
+            if (itemObj.transform.parent == dragSlot.transform)
+            {
+                itemObj.transform.SetParent(transform);
+                itemObj.transform.localPosition = Vector3.zero;
+            }
+            else
+            {
+                itemObj = null;
+            }
+        }
+    }
 
+    // there's no merge option
+    public void OnDrop(PointerEventData eventData)
+    {
+        if (ownInventory.GetInventoryCategory() == InventoryCategory.Allocation)
+        {
+            if (dragSlot.transform.childCount != 0 && InventoryManager.instance.dragIndex != slotIndex)
+            {
+                AllocationInventory inv = (AllocationInventory)ownInventory;
+                int offset = InventoryManager.instance.dragOffset;
+
+                if (inv.GetInventoryItem(slotIndex).itemIndex == InventoryManager.instance.movingItemData.itemIndex)
+                {
+                    ownInventory.MoveItemToSlot(InventoryManager.instance.dragIndex, slotIndex);
+                    return;
+                }
+
+                if (inv.CheckSizeAble(slotIndex - offset, InventoryManager.instance.movingItemData.itemSize))
+                {
+                    List<Transform> childs = new List<Transform>();
+
+                    foreach (Transform child in dragSlot.transform)
+                    {
+                        childs.Add(child);
+                    }
+
+                    foreach (Transform child in childs)
+                    {
+                        child.SetParent(InventoryManager.instance.trashObject);
+                        child.localPosition = Vector3.zero;
+                    }
+
+                    InventoryManager.instance.ClearTrash();
+                    ownInventory.MoveItemToSlot(InventoryManager.instance.dragIndex, slotIndex - offset);
+                    return;
+                }
+            }
+        }
+        else if (ownInventory.GetInventoryCategory() == InventoryCategory.Extended)
+        {
+            // none work
+        }
+        else
+        {
+            if (dragSlot.transform.childCount != 0 && transform.childCount == 0 && InventoryManager.instance.dragIndex != slotIndex)
+            {
+                itemObj = dragSlot.transform.GetChild(0).gameObject;
+                itemObj.transform.SetParent(transform);
+                itemObj.transform.localPosition = Vector3.zero;
+                ownInventory.MoveItemToSlot(InventoryManager.instance.dragIndex, slotIndex);
+                return;
+            }
         }
     }
 
