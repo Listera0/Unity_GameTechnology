@@ -18,12 +18,17 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     void Awake()
     {
-        slotIndex = transform.GetSiblingIndex();
+        SetSlotIndex();
 
         canvas = GetComponentInParent<Canvas>();
         ownInventory = FindOwnInventory();
         dragSlot = InventoryManager.instance.dragSlot;
         isDragging = false;
+    }
+
+    public void SetSlotIndex()
+    { 
+        slotIndex = transform.GetSiblingIndex();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
