@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class ExtendedInventory : MonoBehaviour, IInventorySystem
 {
+    public GameObject invSlotPrefab;
+
     private InventoryInfo inventoryInfo;
     private int maxInventorySlotCount = 64;
 
@@ -39,7 +41,7 @@ public class ExtendedInventory : MonoBehaviour, IInventorySystem
         }
         else
         {
-            ExtendInventory(true);
+            ExtendSlot(true);
             index = inventoryInfo.inventoryItemData.Length - 1;
             if (index < maxInventorySlotCount)
             {
@@ -157,17 +159,35 @@ public class ExtendedInventory : MonoBehaviour, IInventorySystem
         return -1;
     }
 
-    public void ExtendInventory(bool extended)
+    public void ExtendSlot(bool extended)
     {
-        int newSize = extended ? inventoryInfo.inventoryItemData.Length + 1 : inventoryInfo.inventoryItemData.Length - 1;
-
+        int prevSize = inventoryInfo.inventoryItemData.Length;
+        int newSize = extended ? prevSize + 1 : prevSize - 1;
         InventoryInfo newInventory = new InventoryInfo(InventoryCategory.Extended, newSize);
 
-        for (int i = 0; i < newSize; i++)
+        for (int i = 0; i < Math.Min(prevSize, newSize); i++)
         {
             newInventory.inventoryItemData[i] = inventoryInfo.inventoryItemData[i];
         }
 
         inventoryInfo = newInventory;
+
+        Transform inventoryObj = transform.Find("Inventory Obj");
+        int slotCount = inventoryObj.childCount;
+        
+        if (slotCount < newSize)
+        {
+            for (int i = slotCount; i < newSize; i++)
+            {
+                Instantiate(invSlotPrefab, inventoryObj);
+            }
+        }
+        else if (slotCount > newSize)
+        {
+            for (int i = slotCount - 1; i >= newSize; i--)
+            {
+                Destroy(inventoryObj.GetChild(i).gameObject);
+            }
+        }
     }
 }
