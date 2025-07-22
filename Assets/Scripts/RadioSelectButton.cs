@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -69,6 +71,25 @@ public class RadioSelectButton : MonoBehaviour
         }
     }
 
+    public void AddSelectObject(GameObject obj)
+    {
+        List<GameObject> transList = selectObject.ToList();
+        transList.Add(obj);
+        selectObject = transList.ToArray();
+    }
+
+    public void RemoveSelectObject(int index)
+    {
+        List<GameObject> transList = selectObject.ToList();
+        transList.RemoveAt(index);
+        selectObject = transList.ToArray();
+    }
+
+    public int GetSelectIndex()
+    {
+        return selectIndex;
+    }
+
     public GameObject GetSelectGameObject()
     {
         return targetObject[selectIndex];
@@ -81,12 +102,12 @@ public class RadioSelectButton : MonoBehaviour
             if (i == exception)
             {
                 selectObject[i].GetComponent<Image>().color = VisibleColor;
-                if(radioCategory == RadioCategory.Linked) { targetObject[i].SetActive(true); }
+                if (radioCategory == RadioCategory.Linked) { targetObject[i].SetActive(true); }
                 continue;
             }
 
             selectObject[i].GetComponent<Image>().color = UnVisibleColor;
-            if(radioCategory == RadioCategory.Linked) { targetObject[i].SetActive(false); }
+            if (radioCategory == RadioCategory.Linked) { targetObject[i].SetActive(false); }
         }
     }
 
