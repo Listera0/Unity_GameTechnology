@@ -15,6 +15,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private GameObject chatPanel;
     [SerializeField] private GameObject roomObjectPrefab;
     [SerializeField] private ChatManager chatManager;
+    [SerializeField] private bool Active;
 
     private List<String> openedRoomList;
 
@@ -28,7 +29,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        PhotonNetwork.ConnectUsingSettings();
+        if(Active) PhotonNetwork.ConnectUsingSettings();
     }
     public override void OnConnectedToMaster()
     {
