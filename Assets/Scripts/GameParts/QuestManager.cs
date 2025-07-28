@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum QuestState
 {
     NotStart = 0,
     Started,
-    RequrieFinish,
+    RequireFinish,
     Finished
 }
 
 public class QuestInfo
 {
     public string questName;
+    public string questDetail;
     public QuestState questState;
     public List<QuestCondition> questCondition;
     public List<string> questReward;
@@ -20,6 +23,7 @@ public class QuestInfo
     public QuestInfo(string name)
     {
         questName = name;
+        questDetail = "";
         questState = QuestState.NotStart;
         questCondition = new List<QuestCondition>();
         questReward = new List<string>();
@@ -71,15 +75,122 @@ public class QuestManager : Singleton<QuestManager>, IObserver
 {
     private List<QuestInfo> questDatabases;
 
+    public Transform questListPanel;
+    public GameObject questPrefab;
+    public GameObject questInfoPanel;
+    private int selectQuest;
+
+    private TextMeshProUGUI detail_Tittle;
+    private TextMeshProUGUI detail_Detail;
+    private TextMeshProUGUI detail_Condition;
+    private TextMeshProUGUI detail_ActingButton;
+
     void Start()
+    {
+        SetQuestDatabase();
+
+        detail_Tittle = questInfoPanel.transform.Find("Tittle Text").GetComponent<TextMeshProUGUI>();
+        detail_Detail = questInfoPanel.transform.Find("Detail Text").GetComponent<TextMeshProUGUI>();
+        detail_Condition = questInfoPanel.transform.Find("Condition Text").GetComponent<TextMeshProUGUI>();
+        detail_ActingButton = questInfoPanel.transform.Find("Action Button").GetChild(0).GetComponent<TextMeshProUGUI>();
+        questInfoPanel.transform.Find("Action Button").GetComponent<Button>().onClick.AddListener(() => OnClickActionButton());
+
+        UpdateQuestList();
+        ResetQuestInfoPanel();
+    }
+
+    public void SetQuestDatabase()
     {
         questDatabases = new List<QuestInfo>();
 
         QuestInfo testQuest = new QuestInfo("TestQuest");
         testQuest.AddQuestCondition(new QuestCondition("SelectTest_SO_0", 1));
         questDatabases.Add(testQuest);
+    }
 
-        questDatabases[0].questState = QuestState.Started;
+    public void SetQuestInfoPanel(int index)
+    {
+        if (index == -1) return;
+
+        selectQuest = index;
+        QuestInfo quest = questDatabases[index];
+
+        detail_Tittle.text = quest.questName;
+        detail_Detail.text = quest.questDetail;
+
+        string conditionText = "";
+        foreach (QuestCondition con in quest.questCondition)
+        {
+            conditionText += con.conditionName + (con.conditionState == QuestState.Finished ? " (Clear)" : string.Format(" ({0} / {1})", con.currentCount, con.requireCount)) + "\n";
+        }
+        if (conditionText.Length > 3) conditionText = conditionText.Substring(0, conditionText.Length - 1);
+
+        detail_Condition.text = conditionText;
+
+        if (quest.questState == QuestState.NotStart) { detail_ActingButton.text = "Start"; }
+        else if (quest.questState == QuestState.Started) { detail_ActingButton.text = "Progressing"; }
+        else if (quest.questState == QuestState.RequireFinish) { detail_ActingButton.text = "Clear"; }
+        else if (quest.questState == QuestState.Finished) { detail_ActingButton.text = "Finished"; }
+    }
+
+    public void ResetQuestInfoPanel()
+    {
+        selectQuest = -1;
+        detail_Tittle.text = "";
+        detail_Detail.text = "";
+        detail_Condition.text = "";
+        detail_ActingButton.text = "Choose Quest";
+    }
+
+    public void OnClickActionButton()
+    {
+        if (selectQuest == -1) return;
+
+        if (questDatabases[selectQuest].questState == QuestState.NotStart)
+        {
+            questDatabases[selectQuest].questState = QuestState.Started;
+            UpdateQuestList();
+            SetQuestInfoPanel(selectQuest);
+        }
+        else if (questDatabases[selectQuest].questState == QuestState.RequireFinish)
+        {
+            questDatabases[selectQuest].questState = QuestState.Finished;
+            // get quest reward;
+            ResetQuestInfoPanel();
+            UpdateQuestList();
+        }
+    }
+
+    public void UpdateQuestList()
+    {
+        foreach (Transform child in questListPanel)
+        {
+            Destroy(child.gameObject);
+        }
+
+        int index = 0;
+        foreach (QuestInfo data in questDatabases)
+        {
+            GameObject newDialogue = Instantiate(questPrefab, questListPanel);
+            int i = index;
+            newDialogue.GetComponent<Button>().onClick.AddListener(() => SetQuestInfoPanel(i));
+            index++;
+            TextMeshProUGUI newDialogueName = newDialogue.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
+
+            string questObjName = data.questName;
+
+            if (data.questState == QuestState.NotStart) { questObjName += " (Not Start)"; }
+            else if (data.questState == QuestState.Started) { questObjName += " (Progressing)"; }
+            else if (data.questState == QuestState.RequireFinish) { questObjName += " (Clear)"; }
+            else if (data.questState == QuestState.Finished)
+            {
+                questObjName += " (Finish)";
+                newDialogueName.fontStyle = FontStyles.Strikethrough;
+                newDialogueName.color = new Color32(150, 150, 150, 255);
+            }
+            
+            newDialogueName.text = questObjName;
+        }
     }
 
     public void Notify(IObserverTarget obj, string value)
@@ -89,6 +200,8 @@ public class QuestManager : Singleton<QuestManager>, IObserver
             case DialogueManager:
                 print("Recieve Finish Dialogue : " + value);
                 ChangeQuestParams(value, QuestState.Finished);
+                UpdateQuestList();
+                SetQuestInfoPanel(selectQuest);
                 break;
         }
     }
@@ -130,7 +243,7 @@ public class QuestManager : Singleton<QuestManager>, IObserver
 
             if (flag)
             {
-                questDatabases[i].questState = QuestState.RequrieFinish;
+                questDatabases[i].questState = QuestState.RequireFinish;
                 print("Requrie Finish Quest : " + questDatabases[i].questName);
             }
         }
