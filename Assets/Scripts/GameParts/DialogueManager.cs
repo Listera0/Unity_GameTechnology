@@ -86,8 +86,10 @@ public class DialogueData
     }
 }
 
-public class DialogueManager : Singleton<DialogueManager>
+public class DialogueManager : Singleton<DialogueManager>, IObserverTarget
 {
+    private List<IObserver> observers;
+
     private List<DialogueData> dialogueDatabase;
     private DialogueData currentDia;
     private bool startedDialouge;
@@ -100,8 +102,33 @@ public class DialogueManager : Singleton<DialogueManager>
     public Button dialougePanel;
     public Transform dialogueSelectPanel;
 
+    public void AddObserver(List<IObserver> observerList, IObserver obj)
+    {
+        if (!observerList.Contains(obj))
+            observerList.Add(obj);
+    }
+
+    public void RemoveObserver(List<IObserver> observerList, IObserver obj)
+    {
+        if (observerList.Contains(obj))
+        {
+            observerList.Remove(obj);
+        }
+    }
+
+    public void NotifyToObservers(List<IObserver> observerList, string value)
+    {
+        foreach (IObserver obj in observerList)
+        {
+            obj.Notify(this, value);
+        }
+    }
+
     void Start()
     {
+        observers = new List<IObserver>();
+        AddObserver(observers, QuestManager.instance);
+
         dialogueDatabase = new List<DialogueData>();
 
         DialogueData welcome = new DialogueData("Welcome!");
@@ -178,6 +205,7 @@ public class DialogueManager : Singleton<DialogueManager>
             currentDia.dialogueState = DialougeState.Finished;
             startedDialouge = false;
             UpdateDialogueList();
+            NotifyToObservers(observers, currentDia.dialogueName);
         }
         else
         {
