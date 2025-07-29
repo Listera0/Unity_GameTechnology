@@ -17,6 +17,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [SerializeField] private ChatManager chatManager;
     [SerializeField] private bool Active;
 
+    private bool alreadyConnecting;
     private List<String> openedRoomList;
 
     void Awake()
@@ -29,10 +30,21 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        if(Active) PhotonNetwork.ConnectUsingSettings();
+        if(Active && alreadyConnecting == false)
+            PhotonNetwork.ConnectUsingSettings();
     }
+
+    public void ConnectingNetwork()
+    {
+        if (alreadyConnecting == false)
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
+    }
+
     public override void OnConnectedToMaster()
     {
+        alreadyConnecting = true;
         Debug.Log("Successfully joined the server.");
         PhotonNetwork.JoinLobby();
     }

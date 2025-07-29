@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Water
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4d1c0dedf7b41d54aa63c2af0c189d64, type: 2}
-  m_sharedMaterial: {fileID: 3665214482876575618, guid: 4d1c0dedf7b41d54aa63c2af0c189d64, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e2faf449fee162447812200d25a8f008, type: 2}
+  m_sharedMaterial: {fileID: -5568813836859147394, guid: e2faf449fee162447812200d25a8f008, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -201,8 +201,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1200
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4d1c0dedf7b41d54aa63c2af0c189d64, type: 2}
-  m_sharedMaterial: {fileID: 3665214482876575618, guid: 4d1c0dedf7b41d54aa63c2af0c189d64, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e2faf449fee162447812200d25a8f008, type: 2}
+  m_sharedMaterial: {fileID: -5568813836859147394, guid: e2faf449fee162447812200d25a8f008, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -76,7 +76,6 @@ public class QuestManager : Singleton<QuestManager>, IObserver
     private List<QuestInfo> questDatabases;
 
     public Transform questListPanel;
-    public GameObject questPrefab;
     public GameObject questInfoPanel;
     private int selectQuest;
 
@@ -163,21 +162,25 @@ public class QuestManager : Singleton<QuestManager>, IObserver
 
     public void UpdateQuestList()
     {
-        foreach (Transform child in questListPanel)
+        for (int i = questListPanel.childCount - 1; i >= 0; i--)
         {
-            Destroy(child.gameObject);
+            ObjectPoolManager.instance.ReturnObjectToPool(questListPanel.GetChild(i).gameObject);
         }
 
         int index = 0;
         foreach (QuestInfo data in questDatabases)
         {
-            GameObject newDialogue = Instantiate(questPrefab, questListPanel);
+            GameObject newQuest = ObjectPoolManager.instance.GetObjectFromPool("Quest");
+            newQuest.transform.SetParent(questListPanel);
             int i = index;
-            newDialogue.GetComponent<Button>().onClick.AddListener(() => SetQuestInfoPanel(i));
+            newQuest.GetComponent<Button>().onClick.AddListener(() => SetQuestInfoPanel(i));
             index++;
-            TextMeshProUGUI newDialogueName = newDialogue.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI newQuestName = newQuest.transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
 
             string questObjName = data.questName;
+
+            newQuestName.fontStyle = FontStyles.Normal;
+            newQuestName.color = new Color32(0, 0, 0, 255);
 
             if (data.questState == QuestState.NotStart) { questObjName += " (Not Start)"; }
             else if (data.questState == QuestState.Started) { questObjName += " (Progressing)"; }
@@ -185,11 +188,11 @@ public class QuestManager : Singleton<QuestManager>, IObserver
             else if (data.questState == QuestState.Finished)
             {
                 questObjName += " (Finish)";
-                newDialogueName.fontStyle = FontStyles.Strikethrough;
-                newDialogueName.color = new Color32(150, 150, 150, 255);
+                newQuestName.fontStyle = FontStyles.Strikethrough;
+                newQuestName.color = new Color32(150, 150, 150, 255);
             }
             
-            newDialogueName.text = questObjName;
+            newQuestName.text = questObjName;
         }
     }
 

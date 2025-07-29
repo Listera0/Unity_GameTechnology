@@ -97,7 +97,6 @@ public class DialogueManager : Singleton<DialogueManager>, IObserverTarget
     private int currentProgress;
 
     public Transform dialogueListPanel;
-    public GameObject dialoguePrefab;
     public TextMeshProUGUI dialougeText;
     public Button dialougePanel;
     public Transform dialogueSelectPanel;
@@ -250,12 +249,11 @@ public class DialogueManager : Singleton<DialogueManager>, IObserverTarget
         ActDialouge();
     }
 
-    // need object pool
     public void UpdateDialogueList()
     {
-        foreach (Transform child in dialogueListPanel)
+        for (int i = dialogueListPanel.childCount - 1; i >= 0; i--)
         {
-            Destroy(child.gameObject);
+            ObjectPoolManager.instance.ReturnObjectToPool(dialogueListPanel.GetChild(i).gameObject);
         }
 
         int index = 0;
@@ -271,10 +269,11 @@ public class DialogueManager : Singleton<DialogueManager>, IObserverTarget
 
                 if (check) data.dialogueState = DialougeState.NotStart;
             }
-            
-            if(data.dialogueState != DialougeState.Locked)
+
+            if (data.dialogueState != DialougeState.Locked)
             {
-                GameObject newDialogue = Instantiate(dialoguePrefab, dialogueListPanel);
+                GameObject newDialogue = ObjectPoolManager.instance.GetObjectFromPool("Dialogue");
+                newDialogue.transform.SetParent(dialogueListPanel);
                 int i = index;
                 newDialogue.GetComponent<Button>().onClick.AddListener(() => StartDialouge(i));
                 index++;
@@ -283,10 +282,13 @@ public class DialogueManager : Singleton<DialogueManager>, IObserverTarget
 
                 if (data.dialogueState == DialougeState.Finished)
                 {
-                    // 중앙라인 추가
-                    // newDialogueName.text = ;
                     newDialogueName.fontStyle = FontStyles.Strikethrough;
                     newDialogueName.color = new Color32(150, 150, 150, 255);
+                }
+                else
+                {
+                    newDialogueName.fontStyle = FontStyles.Normal;
+                    newDialogueName.color = new Color32(0, 0, 0, 255);
                 }
             }
         }
