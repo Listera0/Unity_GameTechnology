@@ -1415,6 +1415,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27018deee459b34b9240c239dd03f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectPoolLinker:
+  - activate: 1
+    objectPoolName: Dialogue
+    targetPrefab: {fileID: 7475193146962759697, guid: 7366e7f1c0ba1b749b10366c4fb09357, type: 3}
+    extraCount: 3
+  - activate: 1
+    objectPoolName: Quest
+    targetPrefab: {fileID: 7475193146962759697, guid: 7366e7f1c0ba1b749b10366c4fb09357, type: 3}
+    extraCount: 3
 --- !u!4 &68298397
 Transform:
   m_ObjectHideFlags: 0
@@ -8918,10 +8927,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f56e70094f1b731408b6e61bd76cc6f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activate: 0
   objectPoolName: Quest
   targetPrefab: {fileID: 7475193146962759697, guid: 7366e7f1c0ba1b749b10366c4fb09357, type: 3}
   extraCount: 3
-  activate: 0
 --- !u!1 &454263817
 GameObject:
   m_ObjectHideFlags: 0
@@ -29290,10 +29299,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f56e70094f1b731408b6e61bd76cc6f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activate: 0
   objectPoolName: Dialogue
   targetPrefab: {fileID: 7475193146962759697, guid: 7366e7f1c0ba1b749b10366c4fb09357, type: 3}
   extraCount: 3
-  activate: 0
 --- !u!1 &1631315887
 GameObject:
   m_ObjectHideFlags: 0

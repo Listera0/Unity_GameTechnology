@@ -1,49 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class ObjectPool : MonoBehaviour
 {
+    public bool activate;
+
     public string objectPoolName;
-    
-    [SerializeField] private GameObject targetPrefab;
-    [SerializeField] private int extraCount;
-    [SerializeField] private bool activate;
+    public GameObject targetPrefab;
+    public int extraCount;
 
     private List<GameObject> objects;
     private List<bool> objectUse;
 
-    public void InitSetting()
+    public void InitSetting(string name, GameObject prefab, int count)
     {
+        objectPoolName = name;
+        targetPrefab = prefab;
+        extraCount = count;
         objects = new List<GameObject>();
         objectUse = new List<bool>();
         activate = true;
         RemainObjectCheck();
-    }
-
-    public bool CheckObjectPool()
-    {
-        bool checkResult = true;
-
-        if (objectPoolName == "")
-        {
-            Debug.LogWarning("ObjectPoolName is Null");
-            checkResult = false;
-        }
-
-        if (targetPrefab == null)
-        {
-            Debug.LogWarning("TargetPrefab is Null");
-            checkResult = false;
-        }
-
-        if (extraCount < 1)
-        {
-            Debug.LogWarning("ExtraCount is lower then 1");
-            checkResult = false;
-        }
-
-        return checkResult;
     }
 
     private void RemainObjectCheck()

@@ -1,52 +1,107 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPoolManager : Singleton<ObjectPoolManager>
+[Serializable]
+public class ObjectPoolLinker
 {
-    private List<ObjectPool> objectPools;
-    private List<string> objectPoolNames;
+    [Tooltip("Setting activate pool")]
+    public bool activate;
+    [Tooltip("ObjectPool's name")]
+    public string objectPoolName;
+    [Tooltip("Target Object's Prefab")]
+    public GameObject targetPrefab;
+    [Tooltip("How many create extra objects")]
+    public int extraCount;
+}
 
-    void Start()
+[DefaultExecutionOrder(-1001)]
+public class ObjectPoolManager : MonoBehaviour
+{
+    private static ObjectPoolManager Instance;
+    public static ObjectPoolManager instance { get { return Instance; } }
+
+    public List<ObjectPoolLinker> objectPoolLinker;
+
+    private Dictionary<string, ObjectPool> objectPools;
+
+    private void Awake()
     {
-        objectPools = new List<ObjectPool>();
-        objectPoolNames = new List<string>();
-
-        foreach (Transform child in transform)
+        if (Instance != null)
         {
-            ObjectPool childObjectPool = child.GetComponent<ObjectPool>();
-
-            if (childObjectPool == null)
-            {
-                Debug.LogWarningFormat("[{0}] has not 'ObjectPool' Component", child.gameObject.name);
-                continue;
-            }
-
-            if (objectPoolNames.Contains(childObjectPool.objectPoolName) == true)
-            {
-                Debug.LogWarningFormat("[{0}] has same name", child.gameObject.name);
-                continue;
-            }
-
-            if (childObjectPool.CheckObjectPool() == false)
-            {
-                continue;
-            }
-
-            childObjectPool.InitSetting();
-            objectPools.Add(childObjectPool);
-            objectPoolNames.Add(childObjectPool.objectPoolName);
+            Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
+        DontDestroyOnLoad(FindRootParent());
+    }
+
+    private void Start()
+    {
+        objectPools = new Dictionary<string, ObjectPool>();
+
+        foreach (ObjectPoolLinker linker in objectPoolLinker)
+        {
+            if (linker.activate == false || CheckObjectPool(linker) == false) continue;
+
+            GameObject objectPoolObj = new GameObject(string.Format("{0} ObjectPool", linker.objectPoolName));
+            objectPoolObj.transform.SetParent(transform);
+            ObjectPool newObjectPool = objectPoolObj.AddComponent<ObjectPool>();
+            newObjectPool.InitSetting(linker.objectPoolName, linker.targetPrefab, linker.extraCount);
+            objectPools.Add(linker.objectPoolName, newObjectPool);
+        }
+    }
+
+    private GameObject FindRootParent()
+    {
+        GameObject parentObj = gameObject;
+
+        while (parentObj.transform.parent != null)
+        {
+            parentObj = parentObj.transform.parent.gameObject;
+        }
+
+        return parentObj;
+    }
+
+    public bool CheckObjectPool(ObjectPoolLinker linker)
+    {
+        bool checkResult = true;
+
+        if (linker.objectPoolName == "")
+        {
+            Debug.LogWarning("ObjectPoolName is Null");
+            return false;
+        }
+
+        if (objectPools.ContainsKey(linker.objectPoolName) == true)
+        {
+            Debug.LogWarningFormat("Same name of objectpool [{0}]", linker.objectPoolName);
+            checkResult = false;
+        }
+
+        if (linker.targetPrefab == null)
+        {
+            Debug.LogWarningFormat("{0} TargetPrefab is Null", linker.objectPoolName);
+            checkResult = false;
+        }
+
+        if (linker.extraCount < 1)
+        {
+            Debug.LogWarningFormat("{0} ExtraCount is lower then 1", linker.objectPoolName);
+            checkResult = false;
+        }
+
+        return checkResult;
     }
 
     public GameObject GetObjectFromPool(string poolName)
     {
-        for (int i = 0; i < objectPoolNames.Count; i++)
+        if (objectPools.TryGetValue(poolName, out ObjectPool pool))
         {
-            if (objectPoolNames[i] == poolName)
-            {
-                return objectPools[i].GetObject();
-            }
+            return pool.GetObject();
         }
         return null;
     }
