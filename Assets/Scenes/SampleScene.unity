@@ -1436,9 +1436,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1617284535}
-  - {fileID: 430581128}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &71537965
@@ -8883,54 +8881,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -10, y: -15}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &430581127
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 430581128}
-  - component: {fileID: 430581129}
-  m_Layer: 0
-  m_Name: Quest ObjectPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &430581128
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430581127}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 68298397}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &430581129
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430581127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f56e70094f1b731408b6e61bd76cc6f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activate: 0
-  objectPoolName: Quest
-  targetPrefab: {fileID: 7475193146962759697, guid: 7366e7f1c0ba1b749b10366c4fb09357, type: 3}
-  extraCount: 3
 --- !u!1 &454263817
 GameObject:
   m_ObjectHideFlags: 0
@@ -21078,7 +21028,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1109222698}
-  - component: {fileID: 1109222701}
   - component: {fileID: 1109222699}
   - component: {fileID: 1109222700}
   m_Layer: 0
@@ -21165,18 +21114,6 @@ MonoBehaviour:
   - {fileID: 767105541}
   - {fileID: 575411639}
   selectKeyPanel: {fileID: 221049270}
---- !u!114 &1109222701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1109222697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05a4846df5d75cf4f822be5b10ea6171, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1113783540
 GameObject:
   m_ObjectHideFlags: 0
@@ -29255,54 +29192,6 @@ MonoBehaviour:
   m_Spacing: {x: 15, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!1 &1617284534
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1617284535}
-  - component: {fileID: 1617284536}
-  m_Layer: 0
-  m_Name: Dialogue ObjectPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1617284535
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617284534}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 68298397}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1617284536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1617284534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f56e70094f1b731408b6e61bd76cc6f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activate: 0
-  objectPoolName: Dialogue
-  targetPrefab: {fileID: 7475193146962759697, guid: 7366e7f1c0ba1b749b10366c4fb09357, type: 3}
-  extraCount: 3
 --- !u!1 &1631315887
 GameObject:
   m_ObjectHideFlags: 0
@@ -31965,7 +31854,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1aeb66081706e84a92608db2a1d60db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  languageDropBox: {fileID: 941461161}
+  pathCategory: 1
+  pathLocation: /../Language/
+  useLanguageDropBox: 1
+  languageDropBox: {fileID: 941461163}
+  selectLanguage: Korean
 --- !u!1 &1795806176
 GameObject:
   m_ObjectHideFlags: 0

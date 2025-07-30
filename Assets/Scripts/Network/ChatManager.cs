@@ -18,7 +18,7 @@ public class ChatManager : MonoBehaviour
 
     void Awake()
     {
-        networkManager = ControllerSingleton.instance.transform.Find("NetworkManager").GetComponent<NetworkManager>();
+        networkManager = NetworkManager.instance;
         chatLog = transform.Find("Chat Log").GetComponent<TextMeshProUGUI>();
         inputField = transform.Find("InputField (TMP)").GetComponent<TMP_InputField>();
         sendButton = transform.Find("Send Button").GetComponent<Button>();

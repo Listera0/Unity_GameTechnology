@@ -31,113 +31,189 @@ public class TranslateData
     }
 }
 
+public enum PathCategory
+{
+    Custom = 0,
+    DataPath,
+    StreamingAssetPath,
+    PersistentDataPath,
+    TemporaryCachePath,
+    ConsoleLogPath
+}
+
 public class JsonTranslate : Singleton<JsonTranslate>, IInitializeInter
 {
-    public GameObject languageDropBox;
+    public PathCategory pathCategory;
+    public string pathLocation;
 
-    private List<TextMeshProUGUI> targetObjects;
-    private List<string> targetTexts;
+    public bool useLanguageDropBox;
+    public TMP_Dropdown languageDropBox;
+    public string selectLanguage;
+
+    private Dictionary<TextMeshProUGUI, string> staticTranslateObjs;
+    private Dictionary<TextMeshProUGUI, string> dynamicTranslateObjs;
     private Dictionary<string, string> localizedText;
+    private List<string> languageList;
     private bool translated;
 
     public void Initialize()
     {
-        if (!languageDropBox)
-        {
-            Debug.LogWarning("LanguageDropBox is Null");
-        }
+        CheckJsonTranslate();
+    }
 
-        SetLanguageInDropBox();
-        languageDropBox.GetComponent<TMP_Dropdown>().onValueChanged.AddListener(TranslateAllTexts);
+    public void CheckJsonTranslate()
+    {
+        staticTranslateObjs = new Dictionary<TextMeshProUGUI, string>();
+        dynamicTranslateObjs = new Dictionary<TextMeshProUGUI, string>();
+        localizedText = new Dictionary<string, string>();
 
-        targetObjects = new List<TextMeshProUGUI>();
-        targetTexts = new List<string>();
+        GetLanguageList();
         FindAllTextMeshProUGUI();
+
+        if (useLanguageDropBox)
+        {
+            if (languageDropBox)
+            {
+                SetLanguageInDropBox();
+                languageDropBox.onValueChanged.AddListener(TranslateAllTexts);
+            }
+            else
+            {
+                Debug.LogWarning("Language DropBox is Null");
+            }
+        }
+        else
+        {
+            TranslateAllTexts(0);
+        }
+    }
+
+    public void GetLanguageList()
+    {
+        languageList = new List<string>();
+        string[] filesName = Directory.GetFiles(CombinePath(), "*.json", SearchOption.AllDirectories);
+
+        foreach (string name in filesName)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(name);
+            languageList.Add(fileName);
+        }
     }
 
     public void SetLanguageInDropBox()
     {
         if (!languageDropBox) return;
 
-        TMP_Dropdown dropdown = languageDropBox.GetComponent<TMP_Dropdown>();
-
-        string path = Application.dataPath + "/../Language/";
-        string[] filesName = Directory.GetFiles(path, "*.json", SearchOption.AllDirectories);
-
-        foreach (string name in filesName)
+        foreach (string name in languageList)
         {
-            string fileName = Path.GetFileNameWithoutExtension(name);
-            dropdown.options.Add(new TMP_Dropdown.OptionData(fileName));
+            languageDropBox.options.Add(new TMP_Dropdown.OptionData(name));
         }
 
-        for (int i = 0; i < dropdown.options.Count; i++)
+        for (int i = 0; i < languageDropBox.options.Count; i++)
         {
-            if (dropdown.options[i].text == "English")
+            if (languageDropBox.options[i].text == "English")
             {
-                dropdown.value = i;
-                dropdown.RefreshShownValue();
+                languageDropBox.value = i;
+                languageDropBox.RefreshShownValue();
                 break;
             }
         }
     }
 
-    public void FindAllTextMeshProUGUI()
+    public void TranslateAllTexts(int index)
     {
-        if (targetObjects.Count != 0)
+        if (useLanguageDropBox)
         {
-            int index = 0;
-            foreach (TextMeshProUGUI textMesh in targetObjects)
-            {
-                textMesh.text = targetTexts[index];
-                index++;
-            }
+            languageDropBox.value = index;
+            selectLanguage = languageDropBox.options[index].text;
         }
 
-        targetObjects = new List<TextMeshProUGUI>();
-        targetTexts = new List<string>();
-        targetObjects = Resources.FindObjectsOfTypeAll<TextMeshProUGUI>().Where(t => t.gameObject.scene.IsValid() && t.gameObject.hideFlags == HideFlags.None).ToList();
+        GetTranslateText(selectLanguage);
+        TranslateAllStaticText();
+        TranslateAllDynamicText();
 
-        foreach (TextMeshProUGUI textMesh in targetObjects)
+        if (useLanguageDropBox)
         {
-            targetTexts.Add(textMesh.text);
+            languageDropBox.GetComponent<TMP_Dropdown>().RefreshShownValue();
+            TranslateText(languageDropBox.transform.Find("Label").GetComponent<TextMeshProUGUI>());
         }
     }
 
-    public void TranslateAllTexts(int index)
+    public void FindAllTextMeshProUGUI()
     {
-        FindAllTextMeshProUGUI();
-        TMP_Dropdown dropdown = languageDropBox.GetComponent<TMP_Dropdown>();
-
-        string language = dropdown.options[index].text;
-        string path = Application.dataPath + "/../Language/" + language + ".json";
-
-        if (!File.Exists(path))
+        // already translated text return origin
+        if (staticTranslateObjs.Count != 0)
         {
-            Debug.LogError("No File: " + path);
-            return;
-        }
-        
-        translated = true;
-        localizedText = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(path));
-
-        for (int i = 0; i < targetObjects.Count; i++)
-        {
-            targetObjects[i].text = FindTranslateText(targetTexts[i]);
+            foreach (KeyValuePair<TextMeshProUGUI, string> pair in staticTranslateObjs)
+            {
+                if(pair.Key != null)
+                    pair.Key.text = pair.Value;
+            }
         }
 
-        dropdown.value = index;
-        dropdown.RefreshShownValue();
+        staticTranslateObjs = new Dictionary<TextMeshProUGUI, string>();
+        List<TextMeshProUGUI> targetObjects = new List<TextMeshProUGUI>();
+        targetObjects = Resources.FindObjectsOfTypeAll<TextMeshProUGUI>().Where(T => T.gameObject.scene.IsValid() && T.gameObject.hideFlags == HideFlags.None).ToList();
+
+        foreach (TextMeshProUGUI textMesh in targetObjects)
+        {
+            staticTranslateObjs.Add(textMesh, textMesh.text);
+        }
+    }
+
+    public void GetTranslateText(string language)
+    {
+        if (languageList.Contains(language))
+        {
+            // Application.dataPath + "/../Language/"
+            string path = CombinePath() + language + ".json";
+
+            if (!File.Exists(path))
+            {
+                Debug.LogWarningFormat("No File [{0}] ", path);
+                return;
+            }
+            translated = true;
+            localizedText = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(path));
+        }
+        else
+        {
+            Debug.LogWarningFormat("No language File [{0}]", language);
+        }
+    }
+
+    public void TranslateAllStaticText()
+    {
+        foreach (KeyValuePair<TextMeshProUGUI, string> pair in staticTranslateObjs)
+        {
+            if(pair.Key != null)
+                pair.Key.text = FindTranslateText(pair.Value);
+        }
+    }
+
+    public void TranslateAllDynamicText()
+    {
+        foreach (KeyValuePair<TextMeshProUGUI, string> pair in dynamicTranslateObjs)
+        {
+            if(pair.Key != null)
+                pair.Key.text = FindTranslateText(pair.Value);
+        }
     }
 
     public void TranslateText(TextMeshProUGUI textMesh)
     {
+        if (dynamicTranslateObjs.ContainsKey(textMesh))
+            dynamicTranslateObjs[textMesh] = textMesh.text;
+        else
+            dynamicTranslateObjs.Add(textMesh, textMesh.text);
+        
         textMesh.text = FindTranslateText(textMesh.text);
     }
 
     private string FindTranslateText(string text)
     {
         if (translated)
-        { 
+        {
             foreach (var data in localizedText)
             {
                 if (data.Key == text)
@@ -146,7 +222,33 @@ public class JsonTranslate : Singleton<JsonTranslate>, IInitializeInter
                 }
             }
         }
-
         return text;
+    }
+
+    private string CombinePath()
+    {
+        string path = "";
+        switch (pathCategory)
+        {
+            case PathCategory.Custom:
+                path += pathLocation;
+                break;
+            case PathCategory.DataPath:
+                path += Application.dataPath + pathLocation;
+                break;
+            case PathCategory.StreamingAssetPath:
+                path += Application.streamingAssetsPath + pathLocation;
+                break;
+            case PathCategory.PersistentDataPath:
+                path += Application.persistentDataPath + pathLocation;
+                break;
+            case PathCategory.TemporaryCachePath:
+                path += Application.temporaryCachePath + pathLocation;
+                break;
+            case PathCategory.ConsoleLogPath:
+                path += Application.consoleLogPath + pathLocation;
+                break;
+        }
+        return path;
     }
 }

@@ -9,6 +9,9 @@ using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
+    private static NetworkManager Instance;
+    public static NetworkManager instance { get { return Instance; } }
+
     [SerializeField] private Button createButton;
     [SerializeField] private Button joinButton;
     [SerializeField] private RadioSelectButton hostPanel;
@@ -22,6 +25,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(FindRootParent());
+
         if (createButton) createButton.onClick.AddListener(() => OnClickCreateButton());
         if (joinButton) joinButton.onClick.AddListener(() => OnClickJoinButton());
 
@@ -30,7 +42,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        if(Active && alreadyConnecting == false)
+        if (Active && alreadyConnecting == false)
             PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -154,5 +166,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
 
         return returnValue;
+    }
+    
+    private GameObject FindRootParent()
+    {
+        GameObject parentObj = gameObject;
+
+        while (parentObj.transform.parent != null)
+        {
+            parentObj = parentObj.transform.parent.gameObject;
+        }
+
+        return parentObj;
     }
 }

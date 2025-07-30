@@ -9,6 +9,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     public static T instance { get { return Instance; } }
 
+    protected virtual void OnAwake() { }
+
     protected void Awake()
     {
         if (Instance != null)
@@ -19,6 +21,8 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
         Instance = GetComponent<T>();
         DontDestroyOnLoad(FindRootParent());
+
+        OnAwake();
     }
 
     private GameObject FindRootParent()
