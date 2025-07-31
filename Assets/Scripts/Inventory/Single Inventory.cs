@@ -123,16 +123,14 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
                 if (slotObj.childCount != 0)
                 {
                     GameObject itemObj = slotObj.GetChild(0).gameObject;
-                    itemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
-                    JsonTranslate.instance.TranslateText(itemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>());
+                    itemObj.transform.Find("Name").GetComponent<DynamicTranslate>().InitAndChange(item.itemName);
                     itemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>().text = item.itemCount.ToString();
                 }
                 else
                 {
-                    GameObject newItemObj = Instantiate(ItemDataBase.instance.itemObjPrefab, slotObj);
-                    newItemObj.transform.position = slotObj.position;
-                    newItemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
-                    JsonTranslate.instance.TranslateText(newItemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>());
+                    GameObject newItemObj = ObjectPoolManager.instance.GetObjectFromPool("Item");
+                    InventoryManager.instance.SetItemSizeToSlot(newItemObj, slotObj);
+                    newItemObj.transform.Find("Name").GetComponent<DynamicTranslate>().InitAndChange(item.itemName);
                     newItemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>().text = item.itemCount.ToString();
                 }
             }
@@ -140,7 +138,7 @@ public class SingleInventory : MonoBehaviour, IInventorySystem
             {
                 if (slotObj.childCount != 0)
                 {
-                    Destroy(slotObj.GetChild(0).gameObject);
+                    ObjectPoolManager.instance.ReturnObjectToPool(slotObj.GetChild(0).gameObject);
                 }
             }
 

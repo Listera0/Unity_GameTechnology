@@ -43,5 +43,7 @@
     "Others": "기타",
     "Dialogue": "대화",
     "Quest": "퀘스트",
-    "Water":"물"
+    "Water":"물",
+    "Coin":"동전",
+    "Food":"음식"
 }

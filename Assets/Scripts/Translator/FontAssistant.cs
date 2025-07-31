@@ -14,7 +14,7 @@ public class FontAssistant : MonoBehaviour
 
     public void FontChange(TextMeshProUGUI mesh)
     {
-        if (changed == false) return;
+        if (changed == false || mesh.font == changeFont) return;
 
         mesh.font = changeFont;
         mesh.fontSize *= fontChangeValue;
@@ -42,7 +42,7 @@ public class FontAssistant : MonoBehaviour
 
     public float FontSizeAssistant(TMP_FontAsset changeFont)
     {
-        if (changeFont == null) return 0.0f;
+        if (changeFont == null) return 1.0f;
 
         fontAssistantText.ForceMeshUpdate();
         float beforeSize = fontAssistantText.preferredHeight;
@@ -66,8 +66,17 @@ public class FontAssistant : MonoBehaviour
             {
                 AssetBundle bundle = AssetBundle.LoadFromFile(name);
                 if (bundle == null) continue;
-                TMP_FontAsset font = bundle.LoadAsset<TMP_FontAsset>(Path.GetFileNameWithoutExtension(name));
-                if (font != null) fonts.Add(font);
+
+                string[] assetNames = bundle.GetAllAssetNames();
+                foreach (var asset in assetNames)
+                {
+                    TMP_FontAsset fontAsset = bundle.LoadAsset<TMP_FontAsset>(Path.GetFileNameWithoutExtension(asset));
+                    if (fontAsset != null)
+                    { 
+                        fonts.Add(fontAsset);
+                        break;
+                    }
+                }
                 bundle.Unload(false);
             }
         }

@@ -72,7 +72,17 @@ public class InventoryManager : Singleton<InventoryManager>, IInitializeInter
 
         foreach (Transform child in childs)
         {
-            Destroy(child.gameObject);
+            ObjectPoolManager.instance.ReturnObjectToPool(child.gameObject);
         }
+    }
+
+    public void SetItemSizeToSlot(GameObject obj, Transform parent)
+    {
+        obj.transform.SetParent(parent);
+        obj.transform.position = parent.position;
+
+        RectTransform rt = obj.GetComponent<RectTransform>();
+        rt.offsetMin = new Vector2(10, 10);   // left, bottom
+        rt.offsetMax = new Vector2(-10, -10);   // right, top
     }
 }

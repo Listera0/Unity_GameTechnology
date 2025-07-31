@@ -245,8 +245,7 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
 
                     if (inventoryInfo.inventoryItemLink[index] == index)
                     {
-                        itemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
-                        JsonTranslate.instance.TranslateText(itemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>());
+                        itemObj.transform.Find("Name").GetComponent<DynamicTranslate>().InitAndChange(item.itemName);
                     }
 
                     if (GetCountItem(index) == index)
@@ -256,16 +255,15 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
                 }
                 else
                 {
-                    GameObject newItemObj = Instantiate(ItemDataBase.instance.itemObjPrefab, slotObj);
-                    newItemObj.transform.position = slotObj.position;
+                    GameObject newItemObj = ObjectPoolManager.instance.GetObjectFromPool("Item");
+                    InventoryManager.instance.SetItemSizeToSlot(newItemObj, slotObj);
 
                     newItemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = "";
                     newItemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>().text = "";
 
                     if (inventoryInfo.inventoryItemLink[index] == index)
                     {
-                        newItemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
-                        JsonTranslate.instance.TranslateText(newItemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>());
+                        newItemObj.transform.Find("Name").GetComponent<DynamicTranslate>().InitAndChange(item.itemName);
                     }
 
                     if (GetCountItem(index) == index)
@@ -278,7 +276,7 @@ public class AllocationInventory : MonoBehaviour, IInventorySystem
             {
                 if (slotObj.childCount != 0)
                 {
-                    Destroy(slotObj.GetChild(0).gameObject);
+                    ObjectPoolManager.instance.ReturnObjectToPool(slotObj.GetChild(0).gameObject);
                 }
             }
 

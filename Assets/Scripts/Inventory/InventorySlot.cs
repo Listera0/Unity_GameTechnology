@@ -33,7 +33,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (InventoryManager.instance.dragSlot && transform.childCount != 0)
+        if (ownInventory != null && InventoryManager.instance.dragSlot && transform.childCount != 0)
         {
             itemObj = transform.GetChild(0).gameObject;
 
@@ -122,6 +122,8 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     // there's no merge option
     public void OnDrop(PointerEventData eventData)
     {
+        if (ownInventory == null) return;
+
         if (ownInventory.GetInventoryCategory() == InventoryCategory.Allocation)
         {
             if (dragSlot.transform.childCount != 0 && InventoryManager.instance.dragIndex != slotIndex)
@@ -179,6 +181,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         for (int i = 0; i < 3; i++)
         {
+            if (findobj == null) break;
             if (findobj.GetComponent<IInventorySystem>() != null)
             {
                 return findobj.GetComponent<IInventorySystem>();

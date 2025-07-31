@@ -1424,6 +1424,14 @@ MonoBehaviour:
     objectPoolName: Quest
     targetPrefab: {fileID: 7475193146962759697, guid: 7366e7f1c0ba1b749b10366c4fb09357, type: 3}
     extraCount: 3
+  - activate: 1
+    objectPoolName: Item
+    targetPrefab: {fileID: 7797600982599045216, guid: a914c0b9f011a704f9384b31a7491e3d, type: 3}
+    extraCount: 5
+  - activate: 1
+    objectPoolName: InventorySlot
+    targetPrefab: {fileID: 4199744468471338748, guid: 3207549c26074a8448379fcf245233c5, type: 3}
+    extraCount: 3
 --- !u!4 &68298397
 Transform:
   m_ObjectHideFlags: 0

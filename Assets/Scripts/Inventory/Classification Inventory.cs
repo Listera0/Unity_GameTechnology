@@ -139,16 +139,14 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
                 if (slotObj.childCount != 0)
                 {
                     GameObject itemObj = slotObj.GetChild(0).gameObject;
-                    itemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
-                    JsonTranslate.instance.TranslateText(itemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>());
+                    itemObj.transform.Find("Name").GetComponent<DynamicTranslate>().InitAndChange(item.itemName);
                     itemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>().text = item.itemCount.ToString();
                 }
                 else
                 {
-                    GameObject newItemObj = Instantiate(ItemDataBase.instance.itemObjPrefab, slotObj);
-                    newItemObj.transform.position = slotObj.position;
-                    newItemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
-                    JsonTranslate.instance.TranslateText(newItemObj.transform.Find("Name").GetComponent<TextMeshProUGUI>());
+                    GameObject newItemObj = ObjectPoolManager.instance.GetObjectFromPool("Item");
+                    InventoryManager.instance.SetItemSizeToSlot(newItemObj, slotObj);
+                    newItemObj.transform.Find("Name").GetComponent<DynamicTranslate>().InitAndChange(item.itemName);
                     newItemObj.transform.Find("Count").GetComponent<TextMeshProUGUI>().text = item.itemCount.ToString();
                 }
             }
@@ -156,7 +154,7 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
             {
                 if (slotObj.childCount != 0)
                 {
-                    Destroy(slotObj.GetChild(0).gameObject);
+                    ObjectPoolManager.instance.ReturnObjectToPool(slotObj.GetChild(0).gameObject);
                 }
             }
 
@@ -169,19 +167,19 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
         for (int i = 0; i < inventoryInfo[itemCategoryIndex].inventoryItemData.Length; i++)
         {
             if (inventoryInfo[itemCategoryIndex].inventoryItemData[i].itemIndex == item.itemIndex)
+            {
+                if (includeMaxStack)
                 {
-                    if (includeMaxStack)
+                    return i;
+                }
+                else
+                {
+                    if (inventoryInfo[itemCategoryIndex].inventoryItemData[i].itemCount != inventoryInfo[itemCategoryIndex].inventoryItemData[i].itemMaxCount)
                     {
                         return i;
                     }
-                    else
-                    {
-                        if (inventoryInfo[itemCategoryIndex].inventoryItemData[i].itemCount != inventoryInfo[itemCategoryIndex].inventoryItemData[i].itemMaxCount)
-                        {
-                            return i;
-                        }
-                    }
                 }
+            }
         }
 
         return -1;
@@ -211,8 +209,7 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
         {
             int sortIndex = index;
             GameObject obj = Instantiate(categoryButtonPrefab, categoryArea.transform);
-            obj.transform.GetChild(0).GetComponent<DynamicTranslate>().ChangeText(category.ToString());
-            JsonTranslate.instance.TranslateText(obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>());
+            obj.transform.GetChild(0).GetComponent<DynamicTranslate>().InitAndChange(category.ToString());
             obj.GetComponent<Button>().onClick.AddListener(() => SelectIndex(sortIndex));
             radioSelectButton.selectObject[index] = obj;
             index++;
