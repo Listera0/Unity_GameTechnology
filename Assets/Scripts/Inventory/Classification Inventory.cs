@@ -211,7 +211,7 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
         {
             int sortIndex = index;
             GameObject obj = Instantiate(categoryButtonPrefab, categoryArea.transform);
-            obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = category.ToString();
+            obj.transform.GetChild(0).GetComponent<DynamicTranslate>().ChangeText(category.ToString());
             JsonTranslate.instance.TranslateText(obj.transform.GetChild(0).GetComponent<TextMeshProUGUI>());
             obj.GetComponent<Button>().onClick.AddListener(() => SelectIndex(sortIndex));
             radioSelectButton.selectObject[index] = obj;

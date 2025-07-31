@@ -3,7 +3,7 @@
     "Option": "설정",
     "Inventory": "인벤토리",
     "MultiPlay": "멀티플레이",
-    "Game Parts": "게임 모듈",
+    "GameParts": "게임 모듈",
     "ObjectPool": "오브젝트 풀",
     "Game": "게임플레이",
     "Display": "화면",
@@ -28,10 +28,10 @@
     "Move Left": "왼쪽으로 이동",
     "Move Right": "오른쪽으로 이동",
     "Jump": "점프",
-    "Use Item 1": "아아템 1 사용",
-    "Use Item 2": "아아템 2 사용",
-    "Use Item 3": "아아템 3 사용",
-    "Use Item 4": "아아템 4 사용",
+    "Use Item 1": "아이템 1 사용",
+    "Use Item 2": "아이템 2 사용",
+    "Use Item 3": "아이템 3 사용",
+    "Use Item 4": "아이템 4 사용",
     "Single": "단일형",
     "Classification": "분류형",
     "Allocation": "할당형",
@@ -40,5 +40,8 @@
     "Get Item": "획득",
     "Equipment": "장비",
     "Consumeable": "소모품",
-    "Others": "기타"
+    "Others": "기타",
+    "Dialogue": "대화",
+    "Quest": "퀘스트",
+    "Water":"물"
 }
