@@ -45,5 +45,11 @@
     "Quest": "퀘스트",
     "Water":"물",
     "Coin":"동전",
-    "Food":"음식"
+    "Food":"음식",
+    "Create Room":"방 만들기",
+    "Join Room":"방 참여",
+    "Exit Room":"방 퇴장",
+    "Room :":"방 이름 :",
+    "Chatting":"채팅",
+    "Send":"보내기"
 }

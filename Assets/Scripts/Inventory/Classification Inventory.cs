@@ -202,7 +202,7 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
     {
         ItemCategory[] categories = (ItemCategory[])Enum.GetValues(typeof(ItemCategory));
         RadioSelectButton radioSelectButton = categoryArea.GetComponent<RadioSelectButton>();
-        radioSelectButton.selectObject = new GameObject[categories.Length];
+        radioSelectButton.selectObject = new List<GameObject>();;
 
         int index = 0;
         foreach (ItemCategory category in categories)
@@ -211,12 +211,11 @@ public class ClassificationInventory : MonoBehaviour, IInventorySystem
             GameObject obj = Instantiate(categoryButtonPrefab, categoryArea.transform);
             obj.transform.GetChild(0).GetComponent<DynamicTranslate>().InitAndChange(category.ToString());
             obj.GetComponent<Button>().onClick.AddListener(() => SelectIndex(sortIndex));
-            radioSelectButton.selectObject[index] = obj;
+            radioSelectButton.AddSelectObject(obj);
             index++;
         }
 
         radioSelectButton.RadioSelectButtonInit();
-        radioSelectButton.UnVisibleSelect(0);
     }
 
     public void SelectIndex(int index)

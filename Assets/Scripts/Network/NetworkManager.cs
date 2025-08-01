@@ -7,23 +7,27 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NetworkManager : MonoBehaviourPunCallbacks
+public class NetworkManager : MonoBehaviourPunCallbacks, IInitializeInter
 {
     private static NetworkManager Instance;
     public static NetworkManager instance { get { return Instance; } }
 
-    [SerializeField] private Button createButton;
-    [SerializeField] private Button joinButton;
-    [SerializeField] private RadioSelectButton hostPanel;
-    [SerializeField] private GameObject chatPanel;
-    [SerializeField] private GameObject roomObjectPrefab;
-    [SerializeField] private ChatManager chatManager;
-    [SerializeField] private bool Active;
+    public Button createButton;
+    public Button joinButton;
+    public Button exitButton;
+    public TextMeshProUGUI roomInfoText;
+    public Transform hostPanel;
+    public GameObject chatPanel;
+    public TMP_InputField userName;
+    public ChatManager chatManager;
+    public bool Active;
 
+    private string selectRoomName;
+    private bool isJoinRoom;
     private bool alreadyConnecting;
-    private List<String> openedRoomList;
+    private List<string> openedRoomList;
 
-    void Awake()
+    public void Initialize()
     {
         if (Instance != null)
         {
@@ -36,14 +40,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         if (createButton) createButton.onClick.AddListener(() => OnClickCreateButton());
         if (joinButton) joinButton.onClick.AddListener(() => OnClickJoinButton());
-
+        if (exitButton) exitButton.onClick.AddListener(() => OnClickExitButton());
         openedRoomList = new List<string>();
-    }
+        selectRoomName = "None";
+        ControlPanelSetting();
 
-    void Start()
-    {
-        if (Active && alreadyConnecting == false)
-            PhotonNetwork.ConnectUsingSettings();
+        if (Active) ConnectingNetwork();
     }
 
     public void ConnectingNetwork()
@@ -64,76 +66,98 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         Debug.Log("Successfully joined the lobby.");
+        ControlPanelSetting();
     }
 
     public override void OnJoinedRoom()
     {
-        Debug.Log(string.Format("Successfully joined the room({0}).", openedRoomList[hostPanel.GetSelectIndex()]));
+        isJoinRoom = true;
+        ControlPanelSetting();
+        SendMessageInRoom(string.Format("----------- [{0}] is joined -----------", userName.text));
+        Debug.Log(string.Format("Successfully joined the room ({0}).", selectRoomName));
+    }
+
+    public override void OnLeftRoom()
+    {
+        isJoinRoom = false;
+        selectRoomName = "None";
+        chatManager.ClearChatLog();
+        ControlPanelSetting();
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        if (roomList.Count > hostPanel.transform.childCount)
+        foreach (Transform child in hostPanel)
         {
-            for (int i = hostPanel.transform.childCount; i < roomList.Count; i++)
-            {
-                CreateRoom(roomList[i].Name);
-            }
-        }
-        else if (roomList.Count < hostPanel.transform.childCount)
-        {
-            for (int i = hostPanel.transform.childCount - 1; i >= roomList.Count; i++)
-            {
-                RemoveRoom(i);
-            }
+            ObjectPoolManager.instance.ReturnObjectToPool(child.gameObject);
         }
 
-        for (int i = 0; i < roomList.Count; i++)
+        openedRoomList = new List<string>();
+        foreach (RoomInfo room in roomList)
         {
-            hostPanel.transform.GetChild(i).Find("RoomNameText(TMP)").GetComponent<TextMeshProUGUI>().text = roomList[i].Name;
+            if (!room.RemovedFromList)
+            {
+                openedRoomList.Add(room.Name);
+                GameObject newRoomObj = ObjectPoolManager.instance.GetObjectFromPool("RoomObject");
+                newRoomObj.transform.SetParent(hostPanel.transform);
+                newRoomObj.transform.Find("RoomNameText(TMP)").GetComponent<TextMeshProUGUI>().text = room.Name;
+                newRoomObj.GetComponent<Button>().onClick.AddListener(() => SelectRoom(room.Name));
+                newRoomObj.GetComponent<Button>().onClick.AddListener(() => ControlPanelSetting());
+            }
         }
+        ControlPanelSetting();
     }
 
     private void OnClickCreateButton()
     {
-        if (!roomObjectPrefab) return;
-
-        string roomName = GenerateRandomString(10);
+        selectRoomName = GenerateRandomString(10);
         RoomOptions roomOptions = new RoomOptions();
-
-        PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
-        chatPanel.SetActive(true);
-        openedRoomList.Add(roomName);
+        roomOptions.EmptyRoomTtl = 0;
+        PhotonNetwork.JoinOrCreateRoom(selectRoomName, roomOptions, TypedLobby.Default);
+        openedRoomList.Add(selectRoomName);
     }
 
     private void OnClickJoinButton()
     {
-        if (openedRoomList.Count != 0 && hostPanel)
+        if (hostPanel && openedRoomList.Count != 0 && selectRoomName != "None")
         {
-            PhotonNetwork.JoinRoom(openedRoomList[hostPanel.GetSelectIndex()]);
-            chatPanel.SetActive(true);
+            PhotonNetwork.JoinRoom(selectRoomName);
         }
     }
 
-    private void GetStateCurrentNetwork()
+    private void OnClickExitButton()
     {
-        print(PhotonNetwork.NetworkClientState.ToString());
+        PhotonNetwork.LeaveRoom();
     }
 
-    private void CreateRoom(string roomName)
+    private void SelectRoom(string roomName)
     {
-        openedRoomList.Add(roomName);
-        GameObject newRoomObj = Instantiate(roomObjectPrefab, hostPanel.transform);
-        newRoomObj.transform.Find("RoomNameText(TMP)").GetComponent<TextMeshProUGUI>().text = roomName;
-        hostPanel.AddSelectObject(newRoomObj);
+        selectRoomName = roomName;
     }
 
-    private void RemoveRoom(int index)
+    private void ControlPanelSetting()
     {
-        openedRoomList.RemoveAt(index);
-        Destroy(hostPanel.transform.GetChild(index).gameObject);
+        if (isJoinRoom)
+        {
+            chatPanel.SetActive(true);
+            createButton.gameObject.SetActive(false);
+            joinButton.gameObject.SetActive(false);
+            exitButton.gameObject.SetActive(true);
+            userName.interactable = false;
+            userName.transform.GetChild(0).Find("Text").GetComponent<TextMeshProUGUI>().color = new Color32(200, 200, 200, 255);
+            roomInfoText.text = selectRoomName;
+        }
+        else
+        {
+            chatPanel.SetActive(false);
+            createButton.gameObject.SetActive(true);
+            joinButton.gameObject.SetActive(true);
+            exitButton.gameObject.SetActive(false);
+            userName.interactable = true;
+            userName.transform.GetChild(0).Find("Text").GetComponent<TextMeshProUGUI>().color = new Color32(50, 50, 50, 255);
+            roomInfoText.text = selectRoomName;
+        }
     }
-
 
     public void SendMessageInRoom(string message)
     {

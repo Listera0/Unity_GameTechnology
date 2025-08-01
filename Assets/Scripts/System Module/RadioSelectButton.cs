@@ -15,8 +15,8 @@ public class RadioSelectButton : MonoBehaviour
 {
     public bool initSetting;
     public RadioCategory radioCategory;
-    public GameObject[] selectObject;
-    public GameObject[] targetObject;
+    public List<GameObject> selectObject;
+    public List<GameObject> targetObject;
 
     public Color UnVisibleColor = Color.black;
     public Color VisibleColor = Color.black;
@@ -41,7 +41,7 @@ public class RadioSelectButton : MonoBehaviour
         }
         else if (radioCategory == RadioCategory.Linked)
         {
-            if (selectObject.Length != targetObject.Length)
+            if (selectObject.Count != targetObject.Count)
             {
                 failedMatchObject = true;
                 Debug.LogWarning("There's no same length between selectObject and targetObject!");
@@ -73,16 +73,12 @@ public class RadioSelectButton : MonoBehaviour
 
     public void AddSelectObject(GameObject obj)
     {
-        List<GameObject> transList = selectObject.ToList();
-        transList.Add(obj);
-        selectObject = transList.ToArray();
+        selectObject.Add(obj);
     }
 
     public void RemoveSelectObject(int index)
     {
-        List<GameObject> transList = selectObject.ToList();
-        transList.RemoveAt(index);
-        selectObject = transList.ToArray();
+        selectObject.RemoveAt(index);
     }
 
     public int GetSelectIndex()
@@ -97,7 +93,7 @@ public class RadioSelectButton : MonoBehaviour
 
     public void UnVisibleSelect(int exception)
     {
-        for (int i = 0; i < selectObject.Length; i++)
+        for (int i = 0; i < selectObject.Count; i++)
         {
             if (i == exception)
             {
@@ -113,7 +109,7 @@ public class RadioSelectButton : MonoBehaviour
 
     private int FindSelectObj(GameObject select)
     {
-        for (int i = 0; i < selectObject.Length; i++)
+        for (int i = 0; i < selectObject.Count; i++)
         {
             if (select == selectObject[i])
             {

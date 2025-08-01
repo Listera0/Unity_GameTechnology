@@ -5,18 +5,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChatManager : MonoBehaviour
+public class ChatManager : MonoBehaviour, IInitializeInter
 {
-    [SerializeField] private TMP_InputField userName;
-
-    private NetworkManager networkManager;
-    private TextMeshProUGUI chatLog;
-    private TMP_InputField inputField;
-    private Button sendButton;
+    public NetworkManager networkManager;
+    public TextMeshProUGUI chatLog;
+    public TMP_InputField inputField;
+    public Button sendButton;
 
     private List<string> chatList;
 
-    void Awake()
+    public void Initialize()
     {
         networkManager = NetworkManager.instance;
         chatLog = transform.Find("Chat Log").GetComponent<TextMeshProUGUI>();
@@ -43,11 +41,17 @@ public class ChatManager : MonoBehaviour
         }
     }
 
+    public void ClearChatLog()
+    {
+        chatList.Clear();
+        chatLog.text = "";
+    }
+
     public void SendMessage()
     {
         if (inputField.text == "") return;
 
-        networkManager.SendMessageInRoom(string.Format("{0} : {1}", userName.text, inputField.text));
+        networkManager.SendMessageInRoom(string.Format("{0} : {1}", networkManager.userName.text, inputField.text));
         inputField.text = "";
     }
 }
