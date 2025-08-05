@@ -1,0 +1,21 @@
+{
+    "language": "English",
+    "screenMode": 0,
+    "screenResolution": 0,
+    "FPS": 0,
+    "bright": 100.0,
+    "postProcessing": 4,
+    "antiAlliasing": 3,
+    "texture": 3,
+    "shadow": 3,
+    "motionBlur": true,
+    "FOV": 75.0,
+    "occlusionCulling": true,
+    "master": 100.0,
+    "SE": 100.0,
+    "BGM": 100.0,
+    "voice": 100.0,
+    "ambient": 100.0,
+    "UI": 100.0,
+    "sensitive": 0.0
+}

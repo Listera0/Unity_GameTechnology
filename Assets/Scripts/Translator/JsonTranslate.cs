@@ -32,16 +32,6 @@ public class TranslateData
     }
 }
 
-public enum PathCategory
-{
-    Custom = 0,
-    DataPath,
-    StreamingAssetPath,
-    PersistentDataPath,
-    TemporaryCachePath,
-    ConsoleLogPath
-}
-
 public class JsonTranslate : Singleton<JsonTranslate>, IInitializeInter
 {
     public PathCategory pathCategory;
@@ -94,7 +84,7 @@ public class JsonTranslate : Singleton<JsonTranslate>, IInitializeInter
     public void GetLanguageList()
     {
         languageList = new List<string>();
-        string[] filesName = Directory.GetFiles(CombinePath() + pathLocation, "*.json", SearchOption.AllDirectories);
+        string[] filesName = Directory.GetFiles(PathManager.instance.GetPathFromCategory(pathCategory) + pathLocation, "*.json", SearchOption.AllDirectories);
 
         foreach (string name in filesName)
         {
@@ -132,7 +122,7 @@ public class JsonTranslate : Singleton<JsonTranslate>, IInitializeInter
         }
 
         GetTranslateText(selectLanguage);
-        fontAssistant.FontChangeAssistant(CombinePath() + pathLocation);
+        fontAssistant.FontChangeAssistant(PathManager.instance.GetPathFromCategory(pathCategory) + pathLocation);
         TranslateAllStaticText();
         TranslateAllDynamicText();
 
@@ -141,6 +131,7 @@ public class JsonTranslate : Singleton<JsonTranslate>, IInitializeInter
             languageDropBox.GetComponent<TMP_Dropdown>().RefreshShownValue();
             TranslateText(languageDropBox.transform.Find("Label").GetComponent<TextMeshProUGUI>());
         }
+        if (OptionValueChange.instance.optionChanged == false) OptionValueChange.instance.SaveOptionData();
     }
 
     public void FindAllTextMeshProUGUI()
@@ -170,7 +161,7 @@ public class JsonTranslate : Singleton<JsonTranslate>, IInitializeInter
         if (languageList.Contains(language))
         {
             // Application.dataPath + "/../Language/"
-            string path = CombinePath() + pathLocation + language + ".json";
+            string path = PathManager.instance.GetPathFromCategory(pathCategory) + pathLocation + language + ".json";
 
             if (!File.Exists(path))
             {
@@ -234,31 +225,5 @@ public class JsonTranslate : Singleton<JsonTranslate>, IInitializeInter
             }
         }
         return text;
-    }
-
-    private string CombinePath()
-    {
-        string path = "";
-        switch (pathCategory)
-        {
-            case PathCategory.Custom:
-                break;
-            case PathCategory.DataPath:
-                path = Application.dataPath;
-                break;
-            case PathCategory.StreamingAssetPath:
-                path = Application.streamingAssetsPath;
-                break;
-            case PathCategory.PersistentDataPath:
-                path = Application.persistentDataPath;
-                break;
-            case PathCategory.TemporaryCachePath:
-                path = Application.temporaryCachePath;
-                break;
-            case PathCategory.ConsoleLogPath:
-                path = Application.consoleLogPath;
-                break;
-        }
-        return path;
     }
 }

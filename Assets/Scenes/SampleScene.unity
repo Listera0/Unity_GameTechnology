@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 811131}
   - component: {fileID: 811130}
   m_Layer: 5
-  m_Name: MotionBlurText
+  m_Name: MotionBlur Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1586,7 +1586,7 @@ MonoBehaviour:
   m_text: Welcome!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 0}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1908,10 +1908,10 @@ RectTransform:
   - {fileID: 1368159022}
   m_Father: {fileID: 1135792448}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 143.75, y: -777.5}
+  m_SizeDelta: {x: 225, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &100898104
 MonoBehaviour:
@@ -2677,7 +2677,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &186490353
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4849,7 +4849,7 @@ GameObject:
   - component: {fileID: 221049273}
   - component: {fileID: 221049272}
   m_Layer: 5
-  m_Name: Forground
+  m_Name: Forground TechArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5058,7 +5058,7 @@ GameObject:
   - component: {fileID: 230785766}
   - component: {fileID: 230785767}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: SEVolume Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5136,19 +5136,7 @@ MonoBehaviour:
   m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 493107717}
-        m_TargetAssemblyTypeName: TextValueChanger, Assembly-CSharp
-        m_MethodName: ChangeTextValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &233339068
 GameObject:
   m_ObjectHideFlags: 0
@@ -5428,7 +5416,7 @@ GameObject:
   - component: {fileID: 242787616}
   - component: {fileID: 242787617}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: Bright Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5503,22 +5491,10 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 50
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1644587114}
-        m_TargetAssemblyTypeName: TextValueChanger, Assembly-CSharp
-        m_MethodName: ChangeTextValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &245378880
 GameObject:
   m_ObjectHideFlags: 0
@@ -6386,6 +6362,7 @@ RectTransform:
   - {fileID: 800478229}
   - {fileID: 491700824}
   - {fileID: 1474160730}
+  - {fileID: 949674289}
   m_Father: {fileID: 1606749247}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6540,10 +6517,10 @@ RectTransform:
   - {fileID: 1989013380}
   m_Father: {fileID: 1437351523}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 315, y: -37.5}
-  m_SizeDelta: {x: 200, y: 75}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &298485883
 MonoBehaviour:
@@ -7990,7 +7967,7 @@ GameObject:
   - component: {fileID: 369358875}
   - component: {fileID: 369358874}
   m_Layer: 5
-  m_Name: ResolutionTittle
+  m_Name: Resolution Tittle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8146,10 +8123,10 @@ RectTransform:
   - {fileID: 207521899}
   m_Father: {fileID: 1864093305}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -37.5}
+  m_SizeDelta: {x: 200, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &371902145
 MonoBehaviour:
@@ -8405,7 +8382,7 @@ GameObject:
   - component: {fileID: 388980016}
   - component: {fileID: 388980015}
   m_Layer: 5
-  m_Name: Dropdown
+  m_Name: Post-Processing Dropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9379,7 +9356,7 @@ GameObject:
   - component: {fileID: 493107718}
   - component: {fileID: 493107717}
   m_Layer: 5
-  m_Name: Value
+  m_Name: SEVolume Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9397,6 +9374,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38415d7599178a41bcf30ad12aacbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  category: 1
+  connectTarget: {fileID: 230785765}
 --- !u!114 &493107718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9693,10 +9672,10 @@ RectTransform:
   - {fileID: 1286553313}
   m_Father: {fileID: 1135792448}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 143.75, y: -577.5}
+  m_SizeDelta: {x: 225, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &497600208
 MonoBehaviour:
@@ -10744,6 +10723,7 @@ MonoBehaviour:
   - {fileID: 1781963537}
   - {fileID: 506202357}
   - {fileID: 186490354}
+  - {fileID: 752873415}
 --- !u!1 &557239994
 GameObject:
   m_ObjectHideFlags: 0
@@ -10755,7 +10735,7 @@ GameObject:
   - component: {fileID: 557239995}
   - component: {fileID: 557239996}
   m_Layer: 5
-  m_Name: SliderArea
+  m_Name: Bright SliderArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11387,7 +11367,7 @@ GameObject:
   - component: {fileID: 598440844}
   - component: {fileID: 598440845}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: Occlusion Culling Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11708,10 +11688,10 @@ RectTransform:
   - {fileID: 1656997940}
   m_Father: {fileID: 1135792448}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 143.75, y: -477.5}
+  m_SizeDelta: {x: 225, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &625499459
 MonoBehaviour:
@@ -12815,6 +12795,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 719569704}
   m_CullTransparentMesh: 1
+--- !u!1 &752873413
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 752873414}
+  - component: {fileID: 752873415}
+  m_Layer: 0
+  m_Name: OptionValueManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &752873414
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752873413}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1109222698}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &752873415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752873413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf0281abd90e444ab578729aac89e68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathCategory: 1
+  pathLocation: /../Save/Option.json
+  mainCameraObject: {fileID: 963194225}
+  audioMixer: {fileID: 24100000, guid: 12952c60452df364dbb457db1f202e3b, type: 2}
+  brightPanel: {fileID: 949674290}
+  screenModeOption: {fileID: 1742168598}
+  resolutionOption: {fileID: 1137912268}
+  FPSOption: {fileID: 1845995406}
+  brightOption: {fileID: 242787617}
+  postProcessingOption: {fileID: 388980015}
+  antiAlliasingOption: {fileID: 1503360497}
+  textureOption: {fileID: 1733095997}
+  shadowOption: {fileID: 2122188886}
+  motionBlurOption: {fileID: 1200600276}
+  FOVOption: {fileID: 1219187576}
+  occlusionCulllingOption: {fileID: 598440845}
+  masterVolumeOption: {fileID: 1182394170}
+  SEVolumeOption: {fileID: 230785767}
+  BGMVolumeOption: {fileID: 2085565080}
+  voiceVolumeOption: {fileID: 1460302962}
+  ambientVolumeOption: {fileID: 1197597669}
+  UIVolumeOption: {fileID: 2069949677}
+  sensitiveOption: {fileID: 2023762921}
+  optionChanged: 0
 --- !u!1 &756749165
 GameObject:
   m_ObjectHideFlags: 0
@@ -12997,7 +13045,7 @@ GameObject:
   - component: {fileID: 760141839}
   - component: {fileID: 760141838}
   m_Layer: 5
-  m_Name: ScreenModeTittle
+  m_Name: ScreenMode Tittle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13264,7 +13312,7 @@ GameObject:
   - component: {fileID: 763858063}
   - component: {fileID: 763858064}
   m_Layer: 5
-  m_Name: SliderArea
+  m_Name: MasterVolume SliderArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15313,7 +15361,7 @@ GameObject:
   - component: {fileID: 875230073}
   - component: {fileID: 875230072}
   m_Layer: 5
-  m_Name: Value
+  m_Name: AmbientVolume Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15331,6 +15379,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38415d7599178a41bcf30ad12aacbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  category: 1
+  connectTarget: {fileID: 1197597667}
 --- !u!114 &875230073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16239,7 +16289,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &912252016
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16900,6 +16950,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 941461161}
   m_CullTransparentMesh: 1
+--- !u!1 &949674288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 949674289}
+  - component: {fileID: 949674291}
+  - component: {fileID: 949674290}
+  m_Layer: 5
+  m_Name: Forground MainPage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &949674289
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949674288}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 292588649}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &949674290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949674288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &949674291
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949674288}
+  m_CullTransparentMesh: 0
 --- !u!1 &959917867
 GameObject:
   m_ObjectHideFlags: 0
@@ -18583,7 +18708,7 @@ GameObject:
   - component: {fileID: 1044677211}
   - component: {fileID: 1044677212}
   m_Layer: 5
-  m_Name: SliderArea
+  m_Name: FOV SliderArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20306,10 +20431,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 625499458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 86.045, y: -37.5}
+  m_SizeDelta: {x: 65.12, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1062787188
 MonoBehaviour:
@@ -21379,8 +21504,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1109222698}
-  - component: {fileID: 1109222699}
-  - component: {fileID: 1109222700}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -21409,62 +21532,12 @@ Transform:
   - {fileID: 506202356}
   - {fileID: 1511920194}
   - {fileID: 1586179871}
+  - {fileID: 1846616015}
+  - {fileID: 1686918357}
+  - {fileID: 752873414}
+  - {fileID: 1183128388}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1109222699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1109222697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cf0281abd90e444ab578729aac89e68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainCameraObject: {fileID: 963194225}
-  audioMixer: {fileID: 24100000, guid: 12952c60452df364dbb457db1f202e3b, type: 2}
-  screenModeOption: {fileID: 1276929799}
-  resolutionOption: {fileID: 1852276308}
-  FPSOption: {fileID: 862787792}
-  postProcessingOption: {fileID: 1632181796}
-  antiAlliasingOption: {fileID: 2019062552}
-  textureOption: {fileID: 404017132}
-  shadowOption: {fileID: 348171260}
-  motionBlurOption: {fileID: 1948401592}
-  FOVOption: {fileID: 583839788}
-  occlusionCulllingOption: {fileID: 2067080020}
-  masterVolumeOption: {fileID: 144884872}
-  SEVolumeOption: {fileID: 1090014463}
-  BGMVolumeOption: {fileID: 675242247}
-  voiceVolumeOption: {fileID: 275209579}
-  ambientVolumeOption: {fileID: 336909533}
-  UIVolumeOption: {fileID: 551247302}
---- !u!114 &1109222700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1109222697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9b20a65c63b8cc439432ba20c17a591, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keyButtonObjs:
-  - {fileID: 2107905191}
-  - {fileID: 564263202}
-  - {fileID: 1360214251}
-  - {fileID: 959917867}
-  - {fileID: 1007027360}
-  - {fileID: 1960081793}
-  - {fileID: 1884634671}
-  - {fileID: 1852044474}
-  - {fileID: 767105541}
-  - {fileID: 575411639}
-  selectKeyPanel: {fileID: 221049270}
 --- !u!1 &1113783540
 GameObject:
   m_ObjectHideFlags: 0
@@ -21797,7 +21870,7 @@ GameObject:
   - component: {fileID: 1137912269}
   - component: {fileID: 1137912268}
   m_Layer: 5
-  m_Name: Dropdown
+  m_Name: Resolution Dropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21957,10 +22030,10 @@ RectTransform:
   - {fileID: 1065796849}
   m_Father: {fileID: 1135792448}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 143.75, y: -677.5}
+  m_SizeDelta: {x: 225, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1140326757
 MonoBehaviour:
@@ -22542,7 +22615,7 @@ GameObject:
   - component: {fileID: 1182394169}
   - component: {fileID: 1182394170}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: MasterVolume Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22620,19 +22693,63 @@ MonoBehaviour:
   m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1273038222}
-        m_TargetAssemblyTypeName: TextValueChanger, Assembly-CSharp
-        m_MethodName: ChangeTextValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+--- !u!1 &1183128387
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1183128388}
+  - component: {fileID: 1183128389}
+  m_Layer: 0
+  m_Name: InputKeyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1183128388
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183128387}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1109222698}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1183128389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183128387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b20a65c63b8cc439432ba20c17a591, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyButtonObjs:
+  - {fileID: 2107905191}
+  - {fileID: 564263202}
+  - {fileID: 1360214251}
+  - {fileID: 959917867}
+  - {fileID: 1007027360}
+  - {fileID: 1960081793}
+  - {fileID: 1884634671}
+  - {fileID: 1852044474}
+  - {fileID: 767105541}
+  - {fileID: 575411639}
+  selectKeyPanel: {fileID: 221049270}
 --- !u!1 &1194533929
 GameObject:
   m_ObjectHideFlags: 0
@@ -22706,7 +22823,7 @@ GameObject:
   - component: {fileID: 1196421003}
   - component: {fileID: 1196421004}
   m_Layer: 5
-  m_Name: SliderArea
+  m_Name: AmbientVolume SliderArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22770,7 +22887,7 @@ GameObject:
   - component: {fileID: 1197597668}
   - component: {fileID: 1197597669}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: AmbientVolume Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22848,19 +22965,7 @@ MonoBehaviour:
   m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 875230072}
-        m_TargetAssemblyTypeName: TextValueChanger, Assembly-CSharp
-        m_MethodName: ChangeTextValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1200600274
 GameObject:
   m_ObjectHideFlags: 0
@@ -22872,7 +22977,7 @@ GameObject:
   - component: {fileID: 1200600275}
   - component: {fileID: 1200600276}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: Motion Blur Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23181,7 +23286,7 @@ GameObject:
   - component: {fileID: 1219187575}
   - component: {fileID: 1219187576}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: FOV Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23259,19 +23364,7 @@ MonoBehaviour:
   m_Value: 75
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1992508667}
-        m_TargetAssemblyTypeName: TextValueChanger, Assembly-CSharp
-        m_MethodName: ChangeTextValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1228943257
 GameObject:
   m_ObjectHideFlags: 0
@@ -23702,7 +23795,7 @@ GameObject:
   - component: {fileID: 1251211937}
   - component: {fileID: 1251211936}
   m_Layer: 5
-  m_Name: FOVTittle
+  m_Name: FOV Tittle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23958,7 +24051,7 @@ GameObject:
   - component: {fileID: 1255015138}
   - component: {fileID: 1255015137}
   m_Layer: 5
-  m_Name: Value
+  m_Name: VoiceVolume Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23976,6 +24069,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38415d7599178a41bcf30ad12aacbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  category: 1
+  connectTarget: {fileID: 1460302960}
 --- !u!114 &1255015138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24142,7 +24237,7 @@ GameObject:
   - component: {fileID: 1273038223}
   - component: {fileID: 1273038222}
   m_Layer: 5
-  m_Name: Value
+  m_Name: MasterVolume Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24160,6 +24255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38415d7599178a41bcf30ad12aacbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  category: 1
+  connectTarget: {fileID: 1182394168}
 --- !u!114 &1273038223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24355,7 +24452,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1277815278
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26495,7 +26592,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1425830906
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26872,7 +26969,7 @@ GameObject:
   - component: {fileID: 1460302961}
   - component: {fileID: 1460302962}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: VoiceVolume Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26950,19 +27047,7 @@ MonoBehaviour:
   m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1255015137}
-        m_TargetAssemblyTypeName: TextValueChanger, Assembly-CSharp
-        m_MethodName: ChangeTextValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1470243027
 GameObject:
   m_ObjectHideFlags: 0
@@ -26976,7 +27061,7 @@ GameObject:
   - component: {fileID: 1470243029}
   - component: {fileID: 1470243028}
   m_Layer: 5
-  m_Name: Value
+  m_Name: BGMVolume Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26994,6 +27079,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38415d7599178a41bcf30ad12aacbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  category: 1
+  connectTarget: {fileID: 2085565078}
 --- !u!114 &1470243029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27435,7 +27522,7 @@ GameObject:
   - component: {fileID: 1503360498}
   - component: {fileID: 1503360497}
   m_Layer: 5
-  m_Name: Dropdown
+  m_Name: Anti-Aliasing Dropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28056,7 +28143,7 @@ GameObject:
   - component: {fileID: 1530968176}
   - component: {fileID: 1530968175}
   m_Layer: 5
-  m_Name: BrightText
+  m_Name: Bright Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28197,7 +28284,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1537756275
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28762,7 +28849,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1556271862
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29220,7 +29307,7 @@ GameObject:
   - component: {fileID: 1581720260}
   - component: {fileID: 1581720259}
   m_Layer: 5
-  m_Name: Value
+  m_Name: Sensitive Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29238,6 +29325,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38415d7599178a41bcf30ad12aacbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  category: 1
+  connectTarget: {fileID: 2023762919}
 --- !u!114 &1581720260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29540,7 +29629,7 @@ Canvas:
   m_GameObject: {fileID: 1606749243}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 963194227}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -30032,7 +30121,7 @@ GameObject:
   - component: {fileID: 1640654834}
   - component: {fileID: 1640654835}
   m_Layer: 5
-  m_Name: SliderArea
+  m_Name: VoiceVolume SliderArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30098,7 +30187,7 @@ GameObject:
   - component: {fileID: 1644587115}
   - component: {fileID: 1644587114}
   m_Layer: 5
-  m_Name: Value
+  m_Name: Bright Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30116,6 +30205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38415d7599178a41bcf30ad12aacbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  category: 1
+  connectTarget: {fileID: 242787615}
 --- !u!114 &1644587115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30243,7 +30334,7 @@ GameObject:
   - component: {fileID: 1650506933}
   - component: {fileID: 1650506934}
   m_Layer: 5
-  m_Name: SliderArea
+  m_Name: BGMVolume SliderArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30364,10 +30455,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 625499458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 147.56, y: -37.5}
+  m_SizeDelta: {x: 47.91, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1656997941
 MonoBehaviour:
@@ -30700,7 +30791,7 @@ GameObject:
   - component: {fileID: 1670571097}
   - component: {fileID: 1670571096}
   m_Layer: 5
-  m_Name: Value
+  m_Name: UIVolume Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30718,6 +30809,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38415d7599178a41bcf30ad12aacbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  category: 1
+  connectTarget: {fileID: 2069949675}
 --- !u!114 &1670571097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30834,6 +30927,50 @@ RectTransform:
   m_AnchoredPosition: {x: 17.5, y: -37.5}
   m_SizeDelta: {x: 35, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1686918356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1686918357}
+  - component: {fileID: 1686918358}
+  m_Layer: 0
+  m_Name: Save Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1686918357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686918356}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1109222698}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1686918358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686918356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f37a7d89871372458e19de24f2a5099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1691022804
 GameObject:
   m_ObjectHideFlags: 0
@@ -31251,7 +31388,7 @@ GameObject:
   - component: {fileID: 1733095998}
   - component: {fileID: 1733095997}
   m_Layer: 5
-  m_Name: Dropdown
+  m_Name: Texture Dropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31554,7 +31691,7 @@ GameObject:
   - component: {fileID: 1742168599}
   - component: {fileID: 1742168598}
   m_Layer: 5
-  m_Name: Dropdown
+  m_Name: ScreenMode Dropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33306,7 +33443,7 @@ GameObject:
   - component: {fileID: 1833255264}
   - component: {fileID: 1833255265}
   m_Layer: 5
-  m_Name: SliderArea
+  m_Name: Sensitive SliderArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33372,7 +33509,7 @@ GameObject:
   - component: {fileID: 1845995407}
   - component: {fileID: 1845995406}
   m_Layer: 5
-  m_Name: Dropdown
+  m_Name: FPS Dropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33504,6 +33641,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1845995404}
   m_CullTransparentMesh: 1
+--- !u!1 &1846616014
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1846616015}
+  - component: {fileID: 1846616016}
+  m_Layer: 0
+  m_Name: Path Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1846616015
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846616014}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1109222698}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1846616016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846616014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 776071912aa4b90478ff0d63c999a1bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1851615339
 GameObject:
   m_ObjectHideFlags: 0
@@ -34395,10 +34576,10 @@ RectTransform:
   - {fileID: 809471142}
   m_Father: {fileID: 1135792448}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 143.75, y: -877.5}
+  m_SizeDelta: {x: 225, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1897255213
 MonoBehaviour:
@@ -35562,7 +35743,7 @@ GameObject:
   - component: {fileID: 1992508668}
   - component: {fileID: 1992508667}
   m_Layer: 5
-  m_Name: Value
+  m_Name: FOV Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35580,6 +35761,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38415d7599178a41bcf30ad12aacbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  category: 1
+  connectTarget: {fileID: 1219187574}
 --- !u!114 &1992508668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35808,7 +35991,7 @@ GameObject:
   - component: {fileID: 1997750913}
   - component: {fileID: 1997750912}
   m_Layer: 5
-  m_Name: FPSTittle
+  m_Name: FPS Tittle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36677,7 +36860,7 @@ GameObject:
   - component: {fileID: 2023762920}
   - component: {fileID: 2023762921}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: Sensitive Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36755,19 +36938,7 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1581720259}
-        m_TargetAssemblyTypeName: TextValueChanger, Assembly-CSharp
-        m_MethodName: ChangeTextValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &2026858831
 GameObject:
   m_ObjectHideFlags: 0
@@ -36975,7 +37146,7 @@ GameObject:
   - component: {fileID: 2040158441}
   - component: {fileID: 2040158442}
   m_Layer: 5
-  m_Name: SliderArea
+  m_Name: UIVolume SliderArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37523,7 +37694,7 @@ GameObject:
   - component: {fileID: 2069949676}
   - component: {fileID: 2069949677}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: UIVolume Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37601,19 +37772,7 @@ MonoBehaviour:
   m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1670571096}
-        m_TargetAssemblyTypeName: TextValueChanger, Assembly-CSharp
-        m_MethodName: ChangeTextValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &2070474300
 GameObject:
   m_ObjectHideFlags: 0
@@ -37865,7 +38024,7 @@ GameObject:
   - component: {fileID: 2085565079}
   - component: {fileID: 2085565080}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: BGMVolume Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37943,19 +38102,7 @@ MonoBehaviour:
   m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1470243028}
-        m_TargetAssemblyTypeName: TextValueChanger, Assembly-CSharp
-        m_MethodName: ChangeTextValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &2090357692
 GameObject:
   m_ObjectHideFlags: 0
@@ -38199,7 +38346,7 @@ GameObject:
   - component: {fileID: 2097815559}
   - component: {fileID: 2097815560}
   m_Layer: 5
-  m_Name: SliderArea
+  m_Name: SEVolume SliderArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38607,7 +38754,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2111919931
 RectTransform:
   m_ObjectHideFlags: 0
@@ -38752,7 +38899,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &2113342874
@@ -38812,7 +38959,7 @@ GameObject:
   - component: {fileID: 2122188887}
   - component: {fileID: 2122188886}
   m_Layer: 5
-  m_Name: Dropdown
+  m_Name: Shadow Dropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39180,10 +39327,10 @@ RectTransform:
   - {fileID: 328294901}
   m_Father: {fileID: 1437351523}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100, y: -37.5}
-  m_SizeDelta: {x: 200, y: 75}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2144423256
 MonoBehaviour:
@@ -39391,7 +39538,7 @@ MonoBehaviour:
   m_text: Button
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 0}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -39668,7 +39815,7 @@ MonoBehaviour:
   m_text: Button
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 0}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -41640,7 +41787,7 @@ MonoBehaviour:
   m_text: Button
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 0}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

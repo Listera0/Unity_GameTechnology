@@ -8,44 +8,79 @@ using UnityEngine.Audio;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 
-public class OptionValueChange : MonoBehaviour
+public class OptionValueRecord
 {
+    public string language;
+    public int screenMode;
+    public int screenResolution;
+    public int FPS;
+    public float bright;
+    public int postProcessing;
+    public int antiAlliasing;
+    public int texture;
+    public int shadow;
+    public bool motionBlur;
+    public float FOV;
+    public bool occlusionCulling;
+    public float master;
+    public float SE;
+    public float BGM;
+    public float voice;
+    public float ambient;
+    public float UI;
+    public float sensitive;
+}
+
+public class OptionValueChange : Singleton<OptionValueChange>, IInitializeInter
+{
+    public PathCategory pathCategory;
+    public string pathLocation;
+    private string currentPath;
+
     // Base Object;
     public GameObject mainCameraObject;
     public AudioMixer audioMixer;
+    public Image brightPanel;
 
     // Display
-    public GameObject screenModeOption;
-    public GameObject resolutionOption;
-    public GameObject FPSOption;
-    public GameObject postProcessingOption;
-    public GameObject antiAlliasingOption;
-    public GameObject textureOption;
-    public GameObject shadowOption;
-    public GameObject motionBlurOption;
-    public GameObject FOVOption;
-    public GameObject occlusionCulllingOption;
+    public TMP_Dropdown screenModeOption;
+    public TMP_Dropdown resolutionOption;
+    public TMP_Dropdown FPSOption;
+    public Slider brightOption;
+    public TMP_Dropdown postProcessingOption;
+    public TMP_Dropdown antiAlliasingOption;
+    public TMP_Dropdown textureOption;
+    public TMP_Dropdown shadowOption;
+    public Toggle motionBlurOption;
+    public Slider FOVOption;
+    public Toggle occlusionCulllingOption;
 
     // Sound
-    public GameObject masterVolumeOption;
-    public GameObject SEVolumeOption;
-    public GameObject BGMVolumeOption;
-    public GameObject voiceVolumeOption;
-    public GameObject ambientVolumeOption;
-    public GameObject UIVolumeOption;
+    public Slider masterVolumeOption;
+    public Slider SEVolumeOption;
+    public Slider BGMVolumeOption;
+    public Slider voiceVolumeOption;
+    public Slider ambientVolumeOption;
+    public Slider UIVolumeOption;
+
+    // Control
+    public Slider sensitiveOption;
 
     // Setting Value
     private Camera mainCamera;
     private PostProcessLayer mainPostLayer;
     private PostProcessVolume mainPostVolume;
-    private Vector2 currentResolution;
     private FullScreenMode currentScreenMode;
+    private Vector2 currentResolution;
 
+    private OptionValueRecord optionValues;
     private bool cameraInit;
     private bool audioInit;
     private bool changePostProcessingDirect;
+    [HideInInspector]
+    public bool optionChanged;
 
-    void Awake()
+    public void Initialize()
     {
         if (!mainCameraObject)
         {
@@ -68,53 +103,130 @@ public class OptionValueChange : MonoBehaviour
         }
         else audioInit = true;
 
-        if (screenModeOption) screenModeOption.transform.Find("Dropdown").GetComponent<TMP_Dropdown>().onValueChanged.AddListener(ChangeScreenMode);
+        if (screenModeOption) screenModeOption.onValueChanged.AddListener(ChangeScreenMode);
         else Debug.LogWarning("screenModeOption is Null");
 
-        if (resolutionOption) resolutionOption.transform.Find("Dropdown").GetComponent<TMP_Dropdown>().onValueChanged.AddListener(ChangeResolution);
+        if (resolutionOption) resolutionOption.onValueChanged.AddListener(ChangeResolution);
         else Debug.LogWarning("resolutionOption is Null");
 
-        if (FPSOption) FPSOption.transform.Find("Dropdown").GetComponent<TMP_Dropdown>().onValueChanged.AddListener(ChangeFPSSetting);
+        if (FPSOption) FPSOption.onValueChanged.AddListener(ChangeFPSSetting);
         else Debug.LogWarning("FPSOption is Null");
 
-        if (postProcessingOption) postProcessingOption.transform.Find("Dropdown").GetComponent<TMP_Dropdown>().onValueChanged.AddListener(ChangePostProcessing);
+        if (brightOption) brightOption.onValueChanged.AddListener((float value) => ChangeBrightValue(value));
+        else Debug.LogWarning("brightOption is Null");
+
+        if (postProcessingOption) postProcessingOption.onValueChanged.AddListener(ChangePostProcessing);
         else Debug.LogWarning("postProcessingOption is Null");
 
-        if (antiAlliasingOption) antiAlliasingOption.transform.Find("Dropdown").GetComponent<TMP_Dropdown>().onValueChanged.AddListener(ChangeAntiAlliasing);
+        if (antiAlliasingOption) antiAlliasingOption.onValueChanged.AddListener(ChangeAntiAlliasing);
         else Debug.LogWarning("antiAlliasingOption is Null");
 
-        if (textureOption) textureOption.transform.Find("Dropdown").GetComponent<TMP_Dropdown>().onValueChanged.AddListener(ChangeTexture);
+        if (textureOption) textureOption.onValueChanged.AddListener(ChangeTexture);
         else Debug.LogWarning("textureOption is Null");
 
-        if (shadowOption) shadowOption.transform.Find("Dropdown").GetComponent<TMP_Dropdown>().onValueChanged.AddListener(ChangeShadow);
+        if (shadowOption) shadowOption.onValueChanged.AddListener(ChangeShadow);
         else Debug.LogWarning("shadowOption is Null");
 
-        if (motionBlurOption) motionBlurOption.transform.Find("Toggle").GetComponent<Toggle>().onValueChanged.AddListener(SetMotionBlur);
+        if (motionBlurOption) motionBlurOption.onValueChanged.AddListener(SetMotionBlur);
         else Debug.LogWarning("motionBlurOption is Null");
 
-        if (FOVOption) FOVOption.transform.Find("SliderArea").Find("Slider").GetComponent<Slider>().onValueChanged.AddListener(ChangeFOV);
+        if (FOVOption) FOVOption.onValueChanged.AddListener(ChangeFOV);
         else Debug.LogWarning("FOVOption is Null");
 
-        if (occlusionCulllingOption) occlusionCulllingOption.transform.Find("Toggle").GetComponent<Toggle>().onValueChanged.AddListener(SetOcclusionCulling);
+        if (occlusionCulllingOption) occlusionCulllingOption.onValueChanged.AddListener(SetOcclusionCulling);
         else Debug.LogWarning("occlusionCulllingOption is Null");
 
-        if (masterVolumeOption) masterVolumeOption.transform.Find("SliderArea").Find("Slider").GetComponent<Slider>().onValueChanged.AddListener((float value) => ChangeVolumeWithParameter("Master", value));
+        if (masterVolumeOption) masterVolumeOption.onValueChanged.AddListener((float value) => ChangeVolumeWithParameter("Master", value));
         else Debug.LogWarning("masterVolumeOption is Null");
 
-        if (SEVolumeOption) SEVolumeOption.transform.Find("SliderArea").Find("Slider").GetComponent<Slider>().onValueChanged.AddListener((float value) => ChangeVolumeWithParameter("SE", value));
+        if (SEVolumeOption) SEVolumeOption.onValueChanged.AddListener((float value) => ChangeVolumeWithParameter("SE", value));
         else Debug.LogWarning("SEVolumeOption is Null");
 
-        if (BGMVolumeOption) BGMVolumeOption.transform.Find("SliderArea").Find("Slider").GetComponent<Slider>().onValueChanged.AddListener((float value) => ChangeVolumeWithParameter("BGM", value));
+        if (BGMVolumeOption) BGMVolumeOption.onValueChanged.AddListener((float value) => ChangeVolumeWithParameter("BGM", value));
         else Debug.LogWarning("BGMVolumeOption is Null");
 
-        if (voiceVolumeOption) voiceVolumeOption.transform.Find("SliderArea").Find("Slider").GetComponent<Slider>().onValueChanged.AddListener((float value) => ChangeVolumeWithParameter("Voice", value));
+        if (voiceVolumeOption) voiceVolumeOption.onValueChanged.AddListener((float value) => ChangeVolumeWithParameter("Voice", value));
         else Debug.LogWarning("voiceVolumeOption is Null");
 
-        if (ambientVolumeOption) ambientVolumeOption.transform.Find("SliderArea").Find("Slider").GetComponent<Slider>().onValueChanged.AddListener((float value) => ChangeVolumeWithParameter("Ambient", value));
+        if (ambientVolumeOption) ambientVolumeOption.onValueChanged.AddListener((float value) => ChangeVolumeWithParameter("Ambient", value));
         else Debug.LogWarning("ambientVolumeOption is Null");
 
-        if (UIVolumeOption) UIVolumeOption.transform.Find("SliderArea").Find("Slider").GetComponent<Slider>().onValueChanged.AddListener((float value) => ChangeVolumeWithParameter("UI", value));
+        if (UIVolumeOption) UIVolumeOption.onValueChanged.AddListener((float value) => ChangeVolumeWithParameter("UI", value));
         else Debug.LogWarning("UIVolumeOption is Null");
+
+        if (sensitiveOption) sensitiveOption.onValueChanged.AddListener((float value) => ChangeSensitive(value));
+        else Debug.LogWarning("sensitiveOption is Null");
+
+        currentResolution = new Vector2(Screen.currentResolution.width, Screen.currentResolution.height);
+        currentScreenMode = Screen.fullScreenMode;
+        currentPath = PathManager.instance.GetPathFromCategory(pathCategory) + pathLocation;
+        optionValues = SaveManager.instance.LoadData<OptionValueRecord>(currentPath);
+        if (optionValues != null)
+        {
+            LoadOptionData();
+        }
+        else
+        {
+            optionValues = new OptionValueRecord();
+            postProcessingOption.value = 4;
+            SaveOptionData();
+            LoadOptionData();
+        }
+    }
+
+    public void SaveOptionData()
+    {
+        optionValues.language = JsonTranslate.instance.languageDropBox.options[JsonTranslate.instance.languageDropBox.value].text;
+        optionValues.screenMode = screenModeOption.value;
+        optionValues.screenResolution = resolutionOption.value;
+        optionValues.FPS = FPSOption.value;
+        optionValues.bright = brightOption.value;
+        optionValues.postProcessing = postProcessingOption.value;
+        optionValues.antiAlliasing = antiAlliasingOption.value;
+        optionValues.texture = textureOption.value;
+        optionValues.shadow = shadowOption.value;
+        optionValues.motionBlur = motionBlurOption.isOn;
+        optionValues.FOV = FOVOption.value;
+        optionValues.occlusionCulling = occlusionCulllingOption.isOn;
+        optionValues.master = masterVolumeOption.value;
+        optionValues.SE = SEVolumeOption.value;
+        optionValues.BGM = BGMVolumeOption.value;
+        optionValues.voice = voiceVolumeOption.value;
+        optionValues.ambient = ambientVolumeOption.value;
+        optionValues.UI = UIVolumeOption.value;
+        optionValues.sensitive = sensitiveOption.value;
+        SaveManager.instance.SaveData(currentPath, optionValues);
+    }
+
+    public void LoadOptionData()
+    {
+        optionValues = SaveManager.instance.LoadData<OptionValueRecord>(currentPath);
+        optionChanged = true;
+        int index = JsonTranslate.instance.languageDropBox.options.FindIndex(option => option.text == optionValues.language);
+        if (index >= 0)
+        {
+            JsonTranslate.instance.languageDropBox.value = index;
+            JsonTranslate.instance.languageDropBox.RefreshShownValue();
+        }
+        screenModeOption.value = optionValues.screenMode;
+        resolutionOption.value = optionValues.screenResolution;
+        FPSOption.value = optionValues.FPS;
+        brightOption.value = optionValues.bright;
+        postProcessingOption.value = optionValues.postProcessing;
+        antiAlliasingOption.value = optionValues.antiAlliasing;
+        textureOption.value = optionValues.texture;
+        shadowOption.value = optionValues.shadow;
+        motionBlurOption.isOn = optionValues.motionBlur;
+        FOVOption.value = optionValues.FOV;
+        occlusionCulllingOption.isOn = optionValues.occlusionCulling;
+        masterVolumeOption.value = optionValues.master;
+        SEVolumeOption.value = optionValues.SE;
+        BGMVolumeOption.value = optionValues.BGM;
+        voiceVolumeOption.value = optionValues.voice;
+        ambientVolumeOption.value = optionValues.ambient;
+        UIVolumeOption.value = optionValues.UI;
+        sensitiveOption.value = optionValues.sensitive;
+        optionChanged = false;
     }
 
     public void ChangeScreenMode(Int32 value)
@@ -127,6 +239,7 @@ public class OptionValueChange : MonoBehaviour
         }
 
         Screen.SetResolution((int)currentResolution.x, (int)currentResolution.y, currentScreenMode);
+        if (optionChanged == false) SaveOptionData();
     }
 
     public void ChangeResolution(Int32 value)
@@ -139,6 +252,7 @@ public class OptionValueChange : MonoBehaviour
         }
 
         Screen.SetResolution((int)currentResolution.x, (int)currentResolution.y, currentScreenMode);
+        if (optionChanged == false) SaveOptionData();
     }
 
     public void ChangeFPSSetting(Int32 value)
@@ -152,6 +266,13 @@ public class OptionValueChange : MonoBehaviour
             case 4: Application.targetFrameRate = 60; break;
             case 5: Application.targetFrameRate = 30; break;
         }
+        if (optionChanged == false) SaveOptionData();
+    }
+
+    public void ChangeBrightValue(Single value)
+    {
+        brightPanel.color = new Color32(0, 0, 0, (byte)(200 * ((100 - value) * 0.01f)));
+        if (optionChanged == false) SaveOptionData();
     }
 
     public void ChangePostProcessing(Int32 value)
@@ -159,17 +280,18 @@ public class OptionValueChange : MonoBehaviour
         if (cameraInit && value != 0)
         {
             changePostProcessingDirect = true;
-            ChangeValueToOptionObject(antiAlliasingOption, value - 1);
-            ChangeValueToOptionObject(textureOption, value - 1);
-            ChangeValueToOptionObject(shadowOption, value - 1);
+            antiAlliasingOption.value = value - 1;
+            textureOption.value = value - 1;
+            shadowOption.value = value - 1;
             changePostProcessingDirect = false;
         }
+        if (optionChanged == false) SaveOptionData();
     }
 
     public void ChangeAntiAlliasing(Int32 value)
     {
         if (!cameraInit) return;
-        if (!changePostProcessingDirect) ChangeValueToOptionObject(postProcessingOption, 0);
+        if (!changePostProcessingDirect) postProcessingOption.value = 0;
 
         switch (value)
         {
@@ -178,11 +300,12 @@ public class OptionValueChange : MonoBehaviour
             case 2: mainPostLayer.antialiasingMode = PostProcessLayer.Antialiasing.FastApproximateAntialiasing; break;
             case 3: mainPostLayer.antialiasingMode = PostProcessLayer.Antialiasing.SubpixelMorphologicalAntialiasing; break;
         }
+        if (optionChanged == false) SaveOptionData();
     }
 
     public void ChangeTexture(Int32 value)
     {
-        if (!changePostProcessingDirect) ChangeValueToOptionObject(postProcessingOption, 0);
+        if (!changePostProcessingDirect) postProcessingOption.value = 0;
 
         int qualityValue = 0;
 
@@ -195,11 +318,12 @@ public class OptionValueChange : MonoBehaviour
         }
 
         QualitySettings.globalTextureMipmapLimit = qualityValue;
+        if (optionChanged == false) SaveOptionData();
     }
 
     public void ChangeShadow(Int32 value)
     {
-        if (!changePostProcessingDirect) ChangeValueToOptionObject(postProcessingOption, 0);
+        if (!changePostProcessingDirect) postProcessingOption.value = 0;
 
         switch (value)
         {
@@ -208,6 +332,7 @@ public class OptionValueChange : MonoBehaviour
             case 2: QualitySettings.shadowResolution = ShadowResolution.High; break;
             case 3: QualitySettings.shadowResolution = ShadowResolution.VeryHigh; break;
         }
+        if (optionChanged == false) SaveOptionData();
     }
 
     public void SetMotionBlur(Boolean value)
@@ -217,6 +342,7 @@ public class OptionValueChange : MonoBehaviour
         {
             motionBlur.active = value;
         }
+        if (optionChanged == false) SaveOptionData();
     }
 
     public void ChangeFOV(Single value)
@@ -224,6 +350,7 @@ public class OptionValueChange : MonoBehaviour
         if (!cameraInit) return;
 
         mainCamera.fieldOfView = value;
+        if (optionChanged == false) SaveOptionData();
     }
 
     public void SetOcclusionCulling(Boolean value)
@@ -231,14 +358,7 @@ public class OptionValueChange : MonoBehaviour
         if (!cameraInit) return;
 
         mainCamera.useOcclusionCulling = value;
-    }
-
-    private void ChangeValueToOptionObject(GameObject obj, int value)
-    {
-        if (!obj) return;
-
-        GameObject targetObj = obj.transform.Find("Dropdown").gameObject;
-        targetObj.GetComponent<TMP_Dropdown>().value = value;
+        if (optionChanged == false) SaveOptionData();
     }
 
     public void ChangeVolumeWithParameter(string parameter, Single value)
@@ -247,5 +367,11 @@ public class OptionValueChange : MonoBehaviour
 
         float DB = Mathf.Log10(Mathf.Clamp(value / 100f, 0.0001f, 1f)) * 20f;
         audioMixer.SetFloat(parameter, DB);
+        if (optionChanged == false) SaveOptionData();
+    }
+
+    public void ChangeSensitive(Single value)
+    {
+        if (optionChanged == false) SaveOptionData();
     }
 }
