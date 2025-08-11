@@ -195,7 +195,8 @@ public class OptionValueChange : Singleton<OptionValueChange>, IInitializeInter
         optionValues.ambient = ambientVolumeOption.value;
         optionValues.UI = UIVolumeOption.value;
         optionValues.sensitive = sensitiveOption.value;
-        SaveManager.instance.SaveData(currentPath, optionValues);
+        // SaveManager.instance.SaveData(currentPath, optionValues);
+        SaveManager.instance.SaveDataWithThread(currentPath, optionValues);
     }
 
     public void LoadOptionData()

@@ -23,4 +23,9 @@ public class SaveManager : Singleton<SaveManager>
         string json = File.ReadAllText(path);
         return JsonUtility.FromJson<T>(json);
     }
+
+    public void SaveDataWithThread<T>(string path, T data) where T : class
+    {
+        ThreadManager.instance.AddTaskOnQueue(() => SaveData(path, data), () => { Debug.Log("Finish Saving"); });
+    }
 }
